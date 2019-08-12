@@ -1,0 +1,245 @@
+
+/* */
+@import 'fontawesome/fontawesome';
+@import 'fontawesome/solid.scss';
+@import 'fontawesome/brands.scss';
+@import 'fontawesome/regular.scss';
+
+/* cores */
+@import 'cores.scss';
+
+/* mixin */
+@mixin box-sizing() {
+	$value: border-box;
+	-webkit-box-sizing: $value;
+	-moz-box-sizing: $value;
+	box-sizing: $value;
+}
+@mixin clear() {
+	clear: both;
+
+    &:before, &:after {
+        display: table;
+        content: ''; 
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+@mixin box-sizing() {
+	$value: border-box;
+	-webkit-box-sizing: $value;
+	-moz-box-sizing: $value;
+	box-sizing: $value;
+}
+@mixin animacao() {
+	$value1: 0.2;
+	$value2: 0;
+	$valueIni: $value1+s;
+	$valueEnd: $value2+s;
+	-moz-transition: all $valueIni ease $valueEnd;
+	-webkit-transition: all $valueIni ease $valueEnd;
+	-o-transition: all $valueIni ease $valueEnd;
+}
+
+/* data table */
+.header-table {
+	position: relative;
+
+	.filtro-data {
+		position: absolute;
+		left: 0;
+		top: 2px;
+		span {
+			display: inline-block;
+			vertical-align: middle;
+			font-size: 1rem;
+			padding: 0 20px;
+		}
+
+		i {
+			font-size: 1.5rem;
+			display: inline-block;
+			vertical-align: middle;
+			cursor: pointer;
+		}
+	}
+}
+
+table.dataTable {
+	margin-top: 20px !important;
+
+	thead {
+		.sorting_asc {
+			&.no-sorting {
+				&:before, &:after {
+					display: none;
+				}
+			}
+		}
+
+		&.no-thead {
+			th {
+				padding-top: 20px;
+				display: none;
+			}
+		}
+	}
+}
+
+/* modal */
+.modal-backdrop {
+	background-color: rgba(#000000, .4);
+}
+
+.modal {
+	.modal-header {
+		padding-bottom: 0;
+		border: none;
+		flex: 0 0 0px;
+		//flex: unset;
+
+		.modal-title {
+			//flex: 0 0 0px;
+			flex: auto;
+			i {
+				padding-right: 5px;
+			}
+		}
+
+		.close {
+			position: absolute;
+			right: 30px;
+		}
+	}
+	.modal-footer {
+		.item {
+			i {
+				position: relative;
+				top: -1px;
+				padding-right: 5px;
+
+				&.fa-times {
+					top: 0;
+				}
+			}
+
+			a {
+				padding: 0 2px;
+				margin-left: 5px;
+			}
+
+			&:first-child {
+				margin-right: 30px;
+			}
+		}
+
+		&.hover-item {
+			.item-hover {
+				overflow: hidden;
+				padding: 10px 0;
+				a {
+					display: inline-block;
+					@include animacao;
+					opacity: 0;
+					transform: translate(0, 60px);
+				}
+			}
+
+			&:hover {
+				a {
+					opacity: 1;
+					transform: translate(0, 0);
+				}
+			}
+		}
+	}
+
+	.modal-footer {
+		justify-content: center;
+		flex-grow: 0;
+		flex-shrink: 0;
+	}
+}
+
+.modal-open .modal-no-scrolling {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+/* form */
+.input-legenda {
+	input {
+		padding-left: 35px;
+	}
+
+	small  {
+		font-size: .7rem;
+		position: absolute;
+		top: 50%;
+		left: 0;
+		left: 14px;
+		margin-top: -7px;
+		color: rgba(58, 58, 58, 0.7);
+		font-weight: 700;
+
+		i {
+			font-size: .8rem;
+		}
+	}
+}
+
+.select2-search {
+	display: none;	
+}
+
+
+/* pagamentos */
+.data-pagamento {
+	font-size: 98%;
+}
+
+#detalhe-pagamento {
+	.contaner-info {
+		max-width: 500px; 
+		width: 100%;
+		margin: 0 auto;
+		@include box-sizing;
+		@include clear;
+	}
+
+	.modal-body {
+		padding-top: 10px;
+		padding-left: 63px;
+
+		.valor-pagamento {
+			strong	{
+				font-size: 1.25rem;
+				line-height: 1.25rem;
+			}
+			span {
+				margin-left: 20px;
+				position: relative;
+				top: -3px;
+			}
+			.nome-cadastro {
+				font-weight: 600;
+			}
+		}
+
+		.det-pagamento {
+			width: 100%;
+			display: block;
+			@include clear;
+			margin: 15px 0 0;
+
+			.item {
+				margin-top: 10px;
+				span {
+					display: block;
+				}
+			}
+		}
+	}
+}

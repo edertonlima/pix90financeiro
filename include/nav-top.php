@@ -13,7 +13,6 @@
                 </svg>
             </a>
 
-            <?php /*
             <a href="#" class="menu-button-mobile d-xs-block d-sm-block d-md-none">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 17">
                     <rect x="0.5" y="0.5" width="25" height="1" />
@@ -21,7 +20,6 @@
                     <rect x="0.5" y="15.5" width="25" height="1" />
                 </svg>
             </a>
-            */ ?>
 
             <?php /*
             <div class="search" data-search-path="Pages.Search.html?q=">

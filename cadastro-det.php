@@ -1,7 +1,7 @@
 <?php 
     include 'include/head.php';
     $page = 'cadastro';
-    $subpage = 'cadastro-view'
+    $subpage = 'cadastro-det'
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Dore jQuery</title>
+    <title>Contas a Pagar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="font/iconsmind-s/css/iconsminds.css" />
@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="css/main.css" />
 </head>
 
-<body id="app-container" class="menu-sub-hidden show-spinner">
+<body id="app-container" class="menu-default show-spinner">
 
     <?php include 'include/nav-top.php'; ?>
     <?php include 'include/menu.php'; ?>
@@ -34,7 +34,10 @@
             <div class="row app-row ">
                 <div class="col-12 survey-app">
                     <div class="mb-2">
-                        <h1>Ederton Cirino Lima</h1>
+                        <h1>
+                            <i class="iconsminds-male"></i>
+                            Ederton Cirino Lima
+                        </h1>
                         <div class="text-zero top-right-button-container">
                             <button type="button"
                                 class="btn btn-lg btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single"
@@ -188,28 +191,28 @@
                     <p class="text-muted text-small">Pendentes de Pagamentos</p>
                     <ul class="list-unstyled mb-5">
                         <li>
-                                <i class="simple-icon-check text-danger"></i>
-                                01 de Ago, 2019
-                                <span class="float-right text-danger">R$ 343,00</span>
+                            <i class="iconsminds-like text-danger"></i>
+                            01 de Ago, 2019
+                            <span class="float-right text-danger">R$ 343,00</span>
                         </li>
                     </ul>
 
                     <p class="text-muted text-small">Próximos Pagamentos</p>
                     <ul class="list-unstyled mb-5">
                         <li>
-                                <i class="simple-icon-check"></i>
-                                12 de Ago, 2019
-                                <span class="float-right">R$ 1750,00</span>
+                            <i class="iconsminds-like"></i>
+                            12 de Ago, 2019
+                            <span class="float-right">R$ 1750,00</span>
                         </li>
                         <li>
-                                <i class="simple-icon-check"></i>
-                                20 de Ago, 2019
-                                <span class="float-right">R$ 600,00</span>
+                            <i class="iconsminds-like"></i>
+                            20 de Ago, 2019
+                            <span class="float-right">R$ 600,00</span>
                         </li>
                         <li>
-                                <i class="simple-icon-check"></i>
-                                21 de Ago, 2019
-                                <span class="float-right">R$ 250,00</span>
+                            <i class="iconsminds-like"></i>
+                            21 de Ago, 2019
+                            <span class="float-right">R$ 250,00</span>
                         </li>
                     </ul>
 
@@ -217,7 +220,7 @@
                     <p class="text-muted text-small">Últimos Pagamentos</p>
                     <ul class="list-unstyled mb-5">
                         <li class="">
-                            <i class="simple-icon-check text-success"></i>
+                            <i class="iconsminds-like text-success"></i>
                             01 de Ago, 2019
                             <span class="float-right text-success">R$ 180,00</span>
                         </li>
