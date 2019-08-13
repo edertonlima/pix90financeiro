@@ -1,7 +1,10 @@
 <?php 
     include 'include/head.php';
+    include 'db/function_db.php';
     $page = 'cadastro';
-    $subpage = 'cadastro-det'
+    $subpage = 'cadastro-det';
+    $id_cadastro = $_GET['cadastro'];
+    $cadastro = get_cadastro($id_cadastro);
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +39,7 @@
                     <div class="mb-2">
                         <h1>
                             <i class="iconsminds-male"></i>
-                            Ederton Cirino Lima
+                            <?php echo $cadastro->cd_nome; ?>
                         </h1>
                         <div class="text-zero top-right-button-container">
                             <button type="button"
@@ -63,29 +66,34 @@
                                 <div class="card-body">
                                     <p class="list-item-heading mb-4">Informações Gerais</p>
                                     <p class="text-muted text-small mb-2">Nome</p>
-                                    <p class="mb-3">Ederton Lima</p>
+                                    <p class="mb-3"><?php echo $cadastro->cd_nome; ?></p>
                                     <p class="text-muted text-small mb-2">Resumo</p>
                                     <p class="mb-3">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <?php echo $cadastro->cd_resumo; ?>
                                     </p>
 
                                     <p class="text-muted text-small mb-2">Data de Nascimento</p>
                                     <p class="mb-3">
-                                        12/06/1988
+                                        <?php
+                                            $date = date_create($cadastro->cd_datanascimento);
+                                            echo $date->format('d/m/Y');
+                                        ?>
                                     </p>
 
                                     <p class="text-muted text-small mb-2">CPF / CNPJ</p>
                                     <p class="mb-3">
-                                        24.875.587-87
+                                        <?php echo $cadastro->cd_cpfcnpj; ?>
                                     </p>
 
                                     <p class="text-muted text-small mb-2">Endereço</p>
                                     <p class="mb-3">
-                                        Rua João Urias Batista, 665
-                                        <br>
-                                        Vila Santista, Bauru, SP
-                                        <br>
-                                        17054-610
+                                        <?php 
+                                            echo $cadastro->cd_rua.', '.$cadastro->cd_numero;
+                                            echo '<br>';
+                                            echo $cadastro->cd_bairro.', '.$cadastro->cd_cidade.', '.$cadastro->cd_estado;
+                                            echo '<br>';
+                                            echo $cadastro->cd_cep;
+                                        ?>
                                     </p>
                                 </div>
                             </div>
@@ -102,10 +110,10 @@
                                     <p class="list-item-heading mb-4">Informações de Contato</p>
 
                                     <p class="text-muted text-small mb-2">E-mail</p>
-                                    <p class="mb-3"><a href="mailto:marble@gmail.com" title="Enviar E-mail">marble@gmail.com</a></p>
+                                    <p class="mb-3"><a href="mailto:<?php echo $cadastro->cd_email; ?>" title="Enviar E-mail"><?php echo $cadastro->cd_email; ?></a></p>
 
                                     <p class="text-muted text-small mb-2">Telefone</p>
-                                    <p class="mb-3"><a href="tel:(14) 9 9825-2545" title="Fazer Ligação"> (14) 9 9825-2545</a></p>
+                                    <p class="mb-3"><a href="tel:<?php echo $cadastro->cd_telefone; ?>" title="Fazer Ligação"><?php echo $cadastro->cd_telefone; ?></a></p>
 <?php /*
                                     <p class="text-muted text-small mb-2">Social</p>
                                     <div class="social-icons">
@@ -134,12 +142,12 @@
                                 <div class="card-body">
                                     <p class="list-item-heading mb-4">Método de Pagamento</p>
 
-                                    <p class="text-muted text-small mb-2">Transferência Bancária</p>
+                                    <?php /*<p class="text-muted text-small mb-2">Transferência Bancária</p>
                                     <p class="mb-3">
                                         Banco Itaú<br>
                                         Agência: 00975-3<br>
                                         Conta Corrênte: 12784-5
-                                    </p>
+                                    </p> */ ?>
                                 </div>
                             </div>
                         </div>
@@ -247,7 +255,7 @@
     <script src="js/scripts.js"></script>
 
     <script type="text/javascript">
-        <?php if($_GET['cadastro'] == 'success'){ ?>
+        <?php if($_GET['novocadastro'] == 'success'){ ?>
             $.notify({
                 // options
                 title: 'Cadastro realizado com sucesso!',

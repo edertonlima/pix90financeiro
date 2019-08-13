@@ -42,25 +42,10 @@
 	
 	$sql .= "'$email','$telefone')";
 
-	/*$sql = "INSERT INTO cadastro ";
-	$sql .= "('cd_nome','cd_resumo','cd_resumo','cd_cpfcnpj','cd_rua','cd_numero','cd_bairro','cd_cidade','cd_estado','cd_cep','cd_email','cd_telefone')";
-	$sql .= ' VALUES ';
-	$sql .= "($nome','$resumo','$data_nascimento','$cpf_cnpj','$rua','$numero','$bairro','$cidade','$estado','$cep','$email','$telefone')";*/
-
-	//echo $sql;
-
-	/*$resultado = mysqli_query($conexao,$sql);
-	if (!$resultado) {
-		die('Invalid query: ' . mysql_error());
-	}*/
-
 	if ($mysqli->query($sql) === TRUE) {
 		echo $mysqli->insert_id;
-		//echo(json_encode('ok'));
-		//echo "New record created successfully";
 	} else {
 		echo(json_encode($mysqli->error));
-		//echo $mysqli->error;
 	}
 
 	$mysqli->close();

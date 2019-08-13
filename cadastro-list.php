@@ -1,7 +1,9 @@
 <?php 
 	include 'include/head.php';
+	include 'db/function_db.php';
 	$page = 'cadastro';
-	$subpage = 'cadastro-list'
+	$subpage = 'cadastro-list';
+	$cadastros = get_cadastros();
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +45,7 @@
 			<div class="row mb-4">
 				<div class="col-12">
 					<div class="card">
-						<div class="card-body">
+						<div class="card-body"><?php //var_dump($cadastros); ?>
 
 							<table class="table data-table data-tables-pagination responsive table-striped"
 								data-order="[[ 0, &quot;asc&quot; ]]">
@@ -57,18 +59,32 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php for ($i=0; $i < 1; $i++) { ?>
+									<?php
+										foreach ($cadastros as $key => $value) {// var_dump($value) ?>
+										
+									<tr>
+										<td><strong><a href="<?php echo $home_url; ?>/cadastro-det.php?cadastro=<?php echo $value->cd_id; ?>"><?php echo $value->cd_nome; ?></a></strong></td>
+										<td><a href="mailto:marble@gmail.com" title="Enviar E-mail"><?php echo $value->cd_email; ?></a></td>
+										<td><a href="tel:(14) 9 9825-2545" title="Fazer Ligação"><?php echo $value->cd_telefone; ?></a></td>
+										<td><span class="badge badge-pill badge-primary">Digitador</span></td>
+										<?php /*<td><a href="#" class="badge badge-danger mb-1"><i class="simple-icon-note"></i> Editar</a></td>*/ ?>
+									</tr>
+
+										<?php }
+
+										for ($i=0; $i < 1; $i++) { /*?>
 									<tr>
 										<td><strong><a href="<?php echo $home_url; ?>/cadastro-det.php">Ederton Cirino Lima</a></strong></td>
 										<td><a href="mailto:marble@gmail.com" title="Enviar E-mail">marble@gmail.com</a></td>
 										<td><a href="tel:(14) 9 9825-2545" title="Fazer Ligação">(14) 9 9825-2545</a></td>
 										<td><span class="badge badge-pill badge-primary">Digitador</span></td>
-										<?php /*<td><a href="#" class="badge badge-danger mb-1"><i class="simple-icon-note"></i> Editar</a></td>*/ ?>
+										<?php /*<td><a href="#" class="badge badge-danger mb-1"><i class="simple-icon-note"></i> Editar</a></td>*?>
 									</tr>
-									<?php } ?>
+									<?php*/ } ?>
 								</tbody>
 							</table>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -85,3 +101,5 @@
 </body>
 
 </html>
+
+<?php $mysqli->close(); ?>

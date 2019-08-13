@@ -1,7 +1,7 @@
 <?php 
 	include 'include/head.php';
 	$page = 'pagamento';
-	$subpage = 'pagamento-list'
+	$subpage = 'pagamento-list';
 ?>
 
 <!DOCTYPE html>

@@ -275,7 +275,7 @@
 						observacoes:observacoes
 					}, function(result){
 
-						url_cadastro = '<?php echo $home_url; ?>/cadastro-det.php?cadastro='+result+'&cadastro=success';
+						url_cadastro = '<?php echo $home_url; ?>/cadastro-det.php?cadastro='+result+'&novocadastro=success';
 						$(location).attr('href',url_cadastro);
 						return false;
 					});
