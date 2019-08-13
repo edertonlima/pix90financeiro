@@ -11,8 +11,16 @@
 					</li>
 
 					<li class="<?php if($page == 'pagamento'): echo 'active'; endif; ?>">
-						<a href="<?php echo $home_url; ?>/pagamento-list.php">
-							<i class="iconsminds-coins"></i> Pagamentos
+						<?php /* <a href="<?php echo $home_url; ?>/pagamento-list.php"> */ ?>
+						<a href="<?php echo $home_url; ?>">
+							<i class="iconsminds-coins"></i> Pagamento
+						</a>
+					</li>
+
+					<li class="<?php if($page == 'relatorio'): echo 'active'; endif; ?>">
+						<?php /* <a href="<?php echo $home_url; ?>/pagamento-list.php"> */ ?>
+						<a href="<?php echo $home_url; ?>">
+							<i class="simple-icon-docs"></i> Relatório
 						</a>
 					</li>
 					

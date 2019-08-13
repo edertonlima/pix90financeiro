@@ -74,28 +74,10 @@
 									<tr>
 										<td class="align-middle"><i class="fas fa-circle text-success"></i></td>
 										<td class="align-middle"><span class="data-pagamento">15/07/19</span></td>
-										<td class="align-middle"><a href="javascript:" data-toggle="modal" data-backdrop="static" data-target="#detalhe-pagamento">Salário, Ederton Cirino Lima</a></td>
+										<td class="align-middle"><a href="javascript:" data-toggle="modal" data-backdrop="static" data-target="#detalhe-pagamento">Sistema de controle de contas</a></td>
 										<td class="align-middle"><span class="badge badge-pill badge-primary">Salário</span></td>
 										<td class="align-middle">R$ 2600,00</td>
 										<td class="align-middle"><i class="fas fa-lg fa-thumbs-up text-success"></i></td>
-									</tr>
-
-									<tr>
-										<td><i class="fas fa-circle text-muted"></i></td>
-										<td class="align-middle"><span class="data-pagamento">01/05/19</span></td>
-										<td><a href="#">Almoço, Mimo Marmitaria</a></td>
-										<td><span class="badge badge-pill badge-info">Alimentação</span></td>
-										<td>R$ 100,00</td>
-										<td><i class="far fa-lg fa-thumbs-up text-muted"></i></td>
-									</tr>
-
-									<tr>
-										<td><i class="fas fa-circle text-danger"></i></td>
-										<td class="align-middle"><span class="data-pagamento">15/12/19</span></td>
-										<td><a href="#">Mesas, Roberto Marcineiro</a></td>
-										<td><span class="badge badge-pill badge-warning">Escritório</span></td>
-										<td>R$ 1250,00</td>
-										<td><i class="far fa-lg fa-thumbs-down text-danger"></i></td>
 									</tr>
 									<?php } ?>
 								</tbody>
@@ -186,7 +168,7 @@
 	
 					<h2 class="modal-title">
 						<i class="fas fa-circle text-success"></i>
-						<strong>Salário, Ederton Cirino Lima</strong>
+						<strong>Sistema de controle de contas</strong>
 					</h2>					
 					
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">

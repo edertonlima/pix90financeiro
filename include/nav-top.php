@@ -98,7 +98,7 @@
                 */ ?>
 
                 <div class="position-relative d-inline-block">
-                    <button class="header-icon btn btn-empty" type="button" id="notificationButton"
+                    <button class="header-icon btn btn-empty" type="button" id="notificationButton" style="display: none!important;"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="simple-icon-bell"></i>
                         <span class="count">3</span>
@@ -174,7 +174,7 @@
                     </span>
                 </button>
 
-                <div class="dropdown-menu dropdown-menu-right mt-3">
+                <div class="dropdown-menu dropdown-menu-right mt-3" style="display: none!important;">
                     <a class="dropdown-item" href="#">Account</a>
                     <a class="dropdown-item" href="#">Features</a>
                     <a class="dropdown-item" href="#">History</a>

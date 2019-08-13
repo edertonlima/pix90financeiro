@@ -14442,6 +14442,7 @@ readers do not read off random characters that represent icons */
 /* data table */
 .header-table {
   position: relative;
+  z-index: 999;
 }
 
 .header-table .filtro-data {
@@ -14558,10 +14559,8 @@ table.dataTable thead.no-thead th {
 .input-legenda small {
   font-size: .7rem;
   position: absolute;
-  top: 50%;
-  left: 0;
+  top: 15px;
   left: 14px;
-  margin-top: -7px;
   color: rgba(58, 58, 58, 0.7);
   font-weight: 700;
 }
@@ -14574,23 +14573,19 @@ table.dataTable thead.no-thead th {
   height: calc(2.5rem - 1px);
 }
 
-.select2-search {
-  display: none;
-}
-
 /* PAGINAS */
 /* cadastro */
 .label-hidden {
   display: none;
 }
 
-#form-cadastro-novo label.error {
+#form-cadastro-novo label.error, #form-pagamento-novo label.error {
   position: relative;
   left: 0;
   top: 0;
 }
 
-#form-cadastro-novo input.error {
+#form-cadastro-novo input.error, #form-pagamento-novo input.error {
   border-color: red;
 }
 
@@ -14605,7 +14600,7 @@ table.dataTable thead.no-thead th {
   font-size: 98%;
 }
 
-#detalhe-pagamento .contaner-info {
+.detalhe-pagamento .contaner-info {
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
@@ -14615,55 +14610,73 @@ table.dataTable thead.no-thead th {
   clear: both;
 }
 
-#detalhe-pagamento .contaner-info:before, #detalhe-pagamento .contaner-info:after {
+.detalhe-pagamento .contaner-info:before, .detalhe-pagamento .contaner-info:after {
   display: table;
   content: '';
 }
 
-#detalhe-pagamento .contaner-info:after {
+.detalhe-pagamento .contaner-info:after {
   clear: both;
 }
 
-#detalhe-pagamento .modal-body {
+.detalhe-pagamento .modal-body {
   padding-top: 10px;
   padding-left: 63px;
 }
 
-#detalhe-pagamento .modal-body .valor-pagamento strong {
+.detalhe-pagamento .modal-body .valor-pagamento strong {
   font-size: 1.25rem;
   line-height: 1.25rem;
 }
 
-#detalhe-pagamento .modal-body .valor-pagamento span {
+.detalhe-pagamento .modal-body .valor-pagamento span {
   margin-left: 20px;
   position: relative;
   top: -3px;
 }
 
-#detalhe-pagamento .modal-body .valor-pagamento .nome-cadastro {
+.detalhe-pagamento .modal-body .valor-pagamento .nome-cadastro {
   font-weight: 600;
 }
 
-#detalhe-pagamento .modal-body .det-pagamento {
+.detalhe-pagamento .modal-body .det-pagamento {
   width: 100%;
   display: block;
   clear: both;
-  margin: 15px 0 0;
+  margin: 5px 0 0;
 }
 
-#detalhe-pagamento .modal-body .det-pagamento:before, #detalhe-pagamento .modal-body .det-pagamento:after {
+.detalhe-pagamento .modal-body .det-pagamento:before, .detalhe-pagamento .modal-body .det-pagamento:after {
   display: table;
   content: '';
 }
 
-#detalhe-pagamento .modal-body .det-pagamento:after {
+.detalhe-pagamento .modal-body .det-pagamento:after {
   clear: both;
 }
 
-#detalhe-pagamento .modal-body .det-pagamento .item {
+.detalhe-pagamento .modal-body .det-pagamento .item {
   margin-top: 10px;
 }
 
-#detalhe-pagamento .modal-body .det-pagamento .item span {
+.detalhe-pagamento .modal-body .det-pagamento .item span {
   display: block;
+}
+
+.detalhe-pagamento .modal-body .det-pagamento .item:first:child {
+  margin-top: 0;
+}
+
+@media (max-width: 575px) {
+  .header-table {
+    padding-bottom: 20px;
+    text-align: center;
+  }
+  .header-table .filtro-data {
+    position: relative;
+  }
+  #detalhe-pagamento .modal-body .valor-pagamento .nome-cadastro {
+    display: block;
+    margin: 10px 0 0 0;
+  }
 }
