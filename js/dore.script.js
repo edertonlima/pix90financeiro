@@ -3460,6 +3460,8 @@ $.dore = function (element, options) {
     if ($().datepicker) {
       $("input.datepicker").datepicker({
         autoclose: true,
+        format: 'dd/mm/yyyy',
+        //language: "pt-BR",
         rtl: isRtl,
         templates: {
           leftArrow: '<i class="simple-icon-arrow-left"></i>',

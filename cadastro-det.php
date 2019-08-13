@@ -233,18 +233,36 @@
             </a>
         </div>
 
-
     </main>
 
     <script src="js/vendor/jquery-3.3.1.min.js"></script>
     <script src="js/vendor/bootstrap.bundle.min.js"></script>
     <script src="js/vendor/perfect-scrollbar.min.js"></script>
+    <script src="js/vendor/bootstrap-notify.min.js"></script>
     <script src="js/vendor/Chart.bundle.min.js"></script>
     <script src="js/vendor/Sortable.js"></script>
     <script src="js/vendor/select2.full.js"></script>
     <script src="js/vendor/mousetrap.min.js"></script>
     <script src="js/dore.script.js"></script>
     <script src="js/scripts.js"></script>
+
+    <script type="text/javascript">
+        <?php if($_GET['cadastro'] == 'success'){ ?>
+            $.notify({
+                // options
+                title: 'Cadastro realizado com sucesso!',
+                message: '' 
+
+            },{
+                // settings
+                type: 'success',
+                placement: {
+                    from: "bottom",
+                    align: "right"
+                },
+            });
+        <?php } ?>
+    </script>
 </body>
 
 </html>

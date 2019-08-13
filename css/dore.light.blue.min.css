@@ -14570,8 +14570,34 @@ table.dataTable thead.no-thead th {
   font-size: .8rem;
 }
 
+.select2-container--bootstrap .select2-selection--single {
+  height: calc(2.5rem - 1px);
+}
+
 .select2-search {
   display: none;
+}
+
+/* PAGINAS */
+/* cadastro */
+.label-hidden {
+  display: none;
+}
+
+#form-cadastro-novo label.error {
+  position: relative;
+  left: 0;
+  top: 0;
+}
+
+#form-cadastro-novo input.error {
+  border-color: red;
+}
+
+@media (max-width: 991px) {
+  .cad-info-contato {
+    margin-top: 1.5rem !important;
+  }
 }
 
 /* pagamentos */
