@@ -2929,6 +2929,43 @@ $.dore = function (element, options) {
         }
       });
 
+
+
+      $(".data-tables-pagination-relatorio").DataTable({
+        bLengthChange: false,
+        searching: true,
+        destroy: true,
+        info: false,
+        dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ],
+        sDom: '<"row view-filter"<"col-sm-12"<"float-left"l><"float-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
+        pageLength: 20,
+        language: {
+          sSearch: "Pesquisar:&nbsp;&nbsp;&nbsp;",
+          paginate: {
+            previous: "<i class='simple-icon-arrow-left'></i>",
+            next: "<i class='simple-icon-arrow-right'></i>"
+          }
+        },
+        drawCallback: function () {
+          $($(".dataTables_wrapper .pagination li:first-of-type"))
+            .find("a")
+            .addClass("prev");
+          $($(".dataTables_wrapper .pagination li:last-of-type"))
+            .find("a")
+            .addClass("next");
+
+          $(".dataTables_wrapper .pagination").addClass("pagination-sm");
+        }
+      });
+
+
+
       var dataTablePs;
       $(".data-table-scrollable").DataTable({
         searching: false,

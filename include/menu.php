@@ -19,7 +19,7 @@
 
 					<li class="<?php if($page == 'relatorio'): echo 'active'; endif; ?>">
 						<?php /* <a href="<?php echo $home_url; ?>/pagamento-list.php"> */ ?>
-						<a href="<?php echo $home_url; ?>">
+						<a href="<?php echo $home_url; ?>/relatorio.php">
 							<i class="simple-icon-docs"></i> Relatório
 						</a>
 					</li>

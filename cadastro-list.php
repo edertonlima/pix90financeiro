@@ -37,7 +37,7 @@
 					<h1><i class="iconsminds-mens"></i> Cadastros</h1>
 
 					<div class="text-zero top-right-button-container">
-						<a href="#" class="btn btn-primary btn-lg top-right-button mr-1" title="Cadastrar Novo">CADASTRAR</a>
+						<a href="<?php echo $home_url; ?>/cadastro-novo.php" class="btn btn-primary btn-lg top-right-button mr-1" title="Cadastrar Novo">CADASTRAR</a>
 					</div>
 				</div>
 			</div>
@@ -70,17 +70,7 @@
 										<?php /*<td><a href="#" class="badge badge-danger mb-1"><i class="simple-icon-note"></i> Editar</a></td>*/ ?>
 									</tr>
 
-										<?php }
-
-										for ($i=0; $i < 1; $i++) { /*?>
-									<tr>
-										<td><strong><a href="<?php echo $home_url; ?>/cadastro-det.php">Ederton Cirino Lima</a></strong></td>
-										<td><a href="mailto:marble@gmail.com" title="Enviar E-mail">marble@gmail.com</a></td>
-										<td><a href="tel:(14) 9 9825-2545" title="Fazer Ligação">(14) 9 9825-2545</a></td>
-										<td><span class="badge badge-pill badge-primary">Digitador</span></td>
-										<?php /*<td><a href="#" class="badge badge-danger mb-1"><i class="simple-icon-note"></i> Editar</a></td>*?>
-									</tr>
-									<?php*/ } ?>
+									<?php } ?>
 								</tbody>
 							</table>
 						</div>
@@ -99,7 +89,4 @@
 	<script src="js/scripts.js"></script>
 
 </body>
-
 </html>
-
-<?php $mysqli->close(); ?>

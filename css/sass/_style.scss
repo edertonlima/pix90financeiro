@@ -46,7 +46,7 @@
 /* data table */
 .header-table {
 	position: relative;
-	z-index: 999;
+	z-index: 4;
 
 	.filtro-data {
 		position: absolute;
@@ -72,20 +72,33 @@ table.dataTable {
 	margin-top: 20px !important;
 
 	thead {
-		.sorting_asc {
-			&.no-sorting {
-				&:before, &:after {
-					display: none;
-				}
-			}
-		}
-
 		&.no-thead {
 			th {
 				padding-top: 20px;
 				display: none;
+
+				&.sorting, &.sorting_asc, &.sorting_desc {
+					&:before, &:after {
+						display: none;
+					}
+				}
 			}
 		}
+		&.no-sorting {
+			th {
+				&.sorting, &.sorting_asc, &.sorting_desc {
+					&:before, &:after {
+						display: none;
+					}
+				}
+			}			
+		}
+	}
+}
+
+#relatorio_wrapper {
+	.dt-buttons {
+		display: none;
 	}
 }
 

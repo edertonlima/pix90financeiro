@@ -120,8 +120,19 @@
 													<?php
 														if($pagamento->ct_id != 0){
 															$categoria_current = get_categoria($pagamento->ct_id);
-															foreach ($categoria_current as $key => $categoria) { ?>
-																<span class="badge badge-pill badge-primary">
+															foreach ($categoria_current as $key => $categoria) { 
+																if($categoria->ct_rgbbg){
+																	$bg_color = 'background-color:'.$categoria->ct_rgbbg.'!important;';
+																}else{
+																	$bg_color = '';
+																}
+																if($categoria->ct_rgbtxt){
+																	$txt_color = 'color:'.$categoria->ct_rgbtxt.'!important;';
+																}else{
+																	$txt_color = '';
+																}
+																?>
+																<span class="badge badge-pill badge-primary" style="<?php echo $bg_color.$txt_color; ?>">
 																	<?php echo $categoria->ct_nome; ?>
 																</span>
 															<?php }

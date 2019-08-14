@@ -114,22 +114,6 @@
 
                                     <p class="text-muted text-small mb-2">Telefone</p>
                                     <p class="mb-3"><a href="tel:<?php echo $cadastro->cd_telefone; ?>" title="Fazer Ligação"><?php echo $cadastro->cd_telefone; ?></a></p>
-<?php /*
-                                    <p class="text-muted text-small mb-2">Social</p>
-                                    <div class="social-icons">
-                                        <ul class="list-unstyled list-inline">
-                                            <li class="list-inline-item">
-                                                <a href="#"><i class="simple-icon-social-facebook"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="#"><i class="simple-icon-social-twitter"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="#"><i class="simple-icon-social-instagram"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-*/ ?>
                                 </div>
                             </div>
 
