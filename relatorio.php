@@ -255,7 +255,8 @@
 																		$txt_color = '';
 																	}
 																	?>
-																	<span class="badge badge-pill badge-primary" style="<?php echo $bg_color.$txt_color; ?>">
+																	<span class="nome-cadastro">
+																		<i class="fas fa-square" style="padding-right: 2px; color: <?php echo $categoria->ct_color; ?>"></i> 
 																		<?php echo $categoria->ct_nome; ?>
 																	</span>
 																<?php }

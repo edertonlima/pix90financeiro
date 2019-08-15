@@ -51,7 +51,7 @@
 	                            <span class="sr-only"></span>
 	                        </button>
 	                        <div class="dropdown-menu">
-	                            <a class="dropdown-item" href="#">Nova Categoria</a>
+	                            <button class="dropdown-item" id="btn_nova_categoria" data-toggle="modal" data-target="#nova_categoria">Nova Categoria</button>
 	                            <a class="dropdown-item" href="#">Editar Categorias</a>
 	                        </div>
 	                    </div>
@@ -120,21 +120,9 @@
 													<?php
 														if($pagamento->ct_id != 0){
 															$categoria_current = get_categoria($pagamento->ct_id);
-															foreach ($categoria_current as $key => $categoria) { 
-																if($categoria->ct_rgbbg){
-																	$bg_color = 'background-color:'.$categoria->ct_rgbbg.'!important;';
-																}else{
-																	$bg_color = '';
-																}
-																if($categoria->ct_rgbtxt){
-																	$txt_color = 'color:'.$categoria->ct_rgbtxt.'!important;';
-																}else{
-																	$txt_color = '';
-																}
-																?>
-																<span class="badge badge-pill badge-primary" style="<?php echo $bg_color.$txt_color; ?>">
-																	<?php echo $categoria->ct_nome; ?>
-																</span>
+															foreach ($categoria_current as $key => $categoria) { ?>
+																<i class="fas fa-square" style="padding-right: 2px; color: <?php echo $categoria->ct_color; ?>"></i> 
+																<?php echo $categoria->ct_nome; ?>
 															<?php }
 														}
 													?>
@@ -188,7 +176,8 @@
 							if($pagamento->ct_id != 0){
 								$categoria_current = get_categoria($pagamento->ct_id);
 								foreach ($categoria_current as $key => $categoria) { ?>
-									<span class="badge badge-pill badge-primary">
+									<span class="nome-cadastro">
+										<i class="fas fa-square" style="padding-right: 2px; color: <?php echo $categoria->ct_color; ?>"></i> 
 										<?php echo $categoria->ct_nome; ?>
 									</span>
 								<?php }
@@ -329,6 +318,42 @@
 			</div>
 		</div>
 	</main>
+
+
+	<!-- MODAL NOVA CATEGORIA -->
+	<div class="modal fade" id="nova_categoria" tabindex="-2" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalContentLabel"><i class="fas fa-square text-primary"></i> Nova Categoria</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="form-categoria-novo" novalidate>
+						<div class="form-row">
+							<label class="form-group col-md-12 has-float-label">
+								<input type="text" name="ct_nome" id="ct_nome" class="form-control " required="" />
+								<span>Título</span>
+							</label>
+
+							<label class="form-group col-md-12 has-float-label">
+								<input name="ct_color" id="ct_color" class="form-control" required="" />
+								<span>Cor</span>
+							</label>
+
+							<div class="footer-form">
+								<button type="button" id="submit-form-categoria-novo" class="btn btn-sm btn-success"><i class="fas fa-check"></i> Salvar</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- MODAL CADASTRO / EDITAR -->
 	<div class="modal fade" id="form-pagamento" tabindex="-2" role="dialog"
@@ -485,6 +510,51 @@
 
 	<script type="text/javascript">
 
+		$(document).ready(function() {
+			/*$('#nova_categoria').modal('show');
+			setInterval(function(){ 
+				$('.modal-backdrop').css('opacity','.5');
+			}, 1000);*/
+		});
+
+		/* #form-categoria-novo */
+		$('#submit-form-categoria-novo').click(function(){
+			$('#form-categoria-novo').submit(); 		
+		});
+		$('#form-categoria-novo').validate({
+    		submitHandler: function(form) {
+
+				ct_nome = $('#ct_nome').val();
+				ct_color = $('#ct_color').val();
+		
+				$.getJSON("db/categoria_novo.php", { 
+					ct_nome:ct_nome,
+					ct_color:ct_color,
+				}, function(result){
+					//alert(result);
+					$('#nova_categoria').modal('hide');
+					$('#form-categoria-novo').trigger("reset");
+
+		            $.notify({
+		                // options
+		                title: 'Categoria cadastrada com sucesso!',
+		                message: ''
+
+		            },{
+		                // settings
+		                type: 'success',
+		                placement: {
+		                    from: "bottom",
+		                    align: "right"
+		                },
+		            });
+
+					return false;
+				});
+    		}
+    	});
+
+
 		/* #form-pagamento-novo */
 		$('#submit-form-pagamento-novo').click(function(){
 			$('#form-pagamento-novo').submit(); 		
@@ -577,14 +647,6 @@
 
 		/* MASCARA */
 		$('#pg_valor').mask('000000000000000,00', {reverse: true});
-
-		$(document).ready(function() {
-			/*$('#form-pagamento').modal('show');
-			setInterval(function(){ 
-				$('.modal-backdrop').css('opacity','.5');
-			}, 1000);*/
-		});
-
 
         <?php if(isset($_GET['novopagamento'])){ 
         	if($_GET['novopagamento'] == 'success'){ ?>

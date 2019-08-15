@@ -17,7 +17,6 @@
 	/*$sql = "INSERT INTO `pagamento` (`pg_descricao`,`pg_data`,`pg_valor`,`pg_observacao`)";
 	$sql .= " VALUES (`$descricao`,`$data`,`$valor`,`$observacao`)";*/
 
-	$sql = "INSERT INTO pagamento SET pg_descricao = '{$descricao}', pg_valor = '{$valor}'";
 	$sql = "INSERT INTO `pagamento` (`pg_id`, `pg_descricao`, `pg_data`, `pg_valor`, `pg_datapagamento`, `pg_observacao`, `ct_id`, `cd_id`) VALUES (NULL, '{$descricao}', '{$data}', '{$valor}', NULL, '{$observacao}', '{$ct_id}', '{$cd_id}')";
 
 	//echo(json_encode($sql));

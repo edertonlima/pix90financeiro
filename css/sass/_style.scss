@@ -237,6 +237,11 @@ table.dataTable {
 
 
 /* pagamentos */
+#nova_categoria {
+	.modal-dialog {
+		max-width: 320px;
+	}
+}
 .data-pagamento {
 	font-size: 98%;
 }
