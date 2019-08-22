@@ -237,13 +237,50 @@ table.dataTable {
 
 
 /* pagamentos */
-#nova_categoria {
+#nova_categoria, #editar_categoria {
 	.modal-dialog {
-		max-width: 320px;
+		max-width: 300px;
 	}
 }
 .data-pagamento {
 	font-size: 98%;
+}
+label.has-float-label > span.tit-color {
+	position: relative;
+	left: 0;
+}
+.ct_color {
+	text-indent: -10000px;
+	overflow: hidden;
+}
+button.novo-pagamento {
+	background-color: #0f3d64;
+	border-color: #0f3d64;
+
+	&:after {
+		font-size: 1.125rem;
+		top: 3px;
+		position: relative;
+		left: -3px;
+	}
+}
+.list-cores {
+	width: 100%;
+	padding: 0;
+	margin: 15px 0 0;
+
+	li {
+		width: 10%;
+		height: 24.4px;
+		float: left;
+		list-style: none;
+		margin: 0;
+		cursor: pointer;
+
+		&:hover {
+			border: 1px solid #ffffff;
+		}
+	}
 }
 
 .detalhe-pagamento {

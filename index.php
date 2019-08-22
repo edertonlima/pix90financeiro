@@ -45,14 +45,14 @@
 					<div class="text-zero top-right-button-container">
 	                    <div class="btn-group mb-1">
 	                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form-pagamento">
-	                            NOVO PAGAMENTO
+	                            <i class="fas fa-plus" style="margin-right: 5px;"></i>NOVO PAGAMENTO
 	                        </button>
-	                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                        <button type="button" class="btn btn-primary dropdown-toggle novo-pagamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                            <span class="sr-only"></span>
 	                        </button>
 	                        <div class="dropdown-menu">
 	                            <button class="dropdown-item" id="btn_nova_categoria" data-toggle="modal" data-target="#nova_categoria">Nova Categoria</button>
-	                            <a class="dropdown-item" href="#">Editar Categorias</a>
+	                            <a class="dropdown-item" href="<?php echo $home_url; ?>/categorias.php">Editar Categorias</a> 
 	                        </div>
 	                    </div>
 					</div>
@@ -266,7 +266,8 @@
 							</label>
 
 							<label class="form-group col-md-6 has-float-label">
-								<select id="cd_id" class="form-control select2-single ">
+								<select id="cd_id" name="cd_id" class="form-control select2-single">
+									<option label="&nbsp;">&nbsp;</option>
 									<?php
 										$cadastro = get_cadastros();
 										//$cadastros = get_cadastros();
@@ -340,8 +341,86 @@
 							</label>
 
 							<label class="form-group col-md-12 has-float-label">
-								<input name="ct_color" id="ct_color" class="form-control" required="" />
-								<span>Cor</span>
+								<span class="tit-color">Selecione uma cor: </span>
+								<input name="ct_color" id="ct_color" class="form-control" required="" value="rgb(240, 240, 240)" style="background-color: rgb(240, 240, 240);" />
+								<ul id="list-cores">
+									<li rel="rgb(240, 240, 240)" style="background-color: rgb(240, 240, 240)"></li>
+									<li rel="rgb(255, 214, 214)" style="background-color: rgb(255, 214, 214)"></li>
+									<li rel="rgb(255, 214, 173)" style="background-color: rgb(255, 214, 173)"></li>
+									<li rel="rgb(255, 240, 225)" style="background-color: rgb(255, 240, 225)"></li>
+									<li rel="rgb(227, 243, 198)" style="background-color: rgb(227, 243, 198)"></li>
+									<li rel="rgb(163, 234, 194)" style="background-color: rgb(163, 234, 194)"></li>
+									<li rel="rgb(154, 222, 223)" style="background-color: rgb(154, 222, 223)"></li>
+									<li rel="rgb(221, 255, 255)" style="background-color: rgb(221, 255, 255)"></li>
+									<li rel="rgb(213, 214, 255)" style="background-color: rgb(213, 214, 255)"></li>
+									<li rel="rgb(255, 213, 255)" style="background-color: rgb(255, 213, 255)"></li>
+
+									<li rel="rgb(219, 223, 220)" style="background-color: rgb(219, 223, 220)"></li>
+									<li rel="rgb(255, 157, 157)" style="background-color: rgb(255, 157, 157)"></li>
+									<li rel="rgb(255, 189, 92)" style="background-color: rgb(255, 189, 92)"></li>
+									<li rel="rgb(254, 233, 183)" style="background-color: rgb(254, 233, 183)"></li>
+									<li rel="rgb(218, 238, 142)" style="background-color: rgb(218, 238, 142)"></li>
+									<li rel="rgb(130, 215, 172)" style="background-color: rgb(130, 215, 172)"></li>
+									<li rel="rgb(37, 213, 186)" style="background-color: rgb(37, 213, 186)"></li>
+									<li rel="rgb(82, 214, 255)" style="background-color: rgb(82, 214, 255)"></li>
+									<li rel="rgb(171, 172, 255)" style="background-color: rgb(171, 172, 255)"></li>
+									<li rel="rgb(255, 171, 255)" style="background-color: rgb(255, 171, 255)"></li>
+
+									<li rel="rgb(202, 207, 210)" style="background-color: rgb(202, 207, 210)"></li>
+									<li rel="rgb(255, 133, 133)" style="background-color: rgb(255, 133, 133)"></li>
+									<li rel="rgb(237, 152, 54)" style="background-color: rgb(237, 152, 54)"></li>
+									<li rel="rgb(251, 217, 133" style="background-color: rgb(251, 217, 133)"></li>
+									<li rel="rgb(141, 212, 127)" style="background-color: rgb(141, 212, 127)"></li>
+									<li rel="rgb(75, 207, 153)" style="background-color: rgb(75, 207, 153)"></li>
+									<li rel="rgb(70, 193, 160)" style="background-color: rgb(70, 193, 160)"></li>
+									<li rel="rgb(57, 196, 255)" style="background-color: rgb(57, 196, 255)"></li>
+									<li rel="rgb(131, 132, 216" style="background-color: rgb(131, 132, 216)"></li>
+									<li rel="rgb(215, 131, 215" style="background-color: rgb(215, 131, 215)"></li>
+									
+									<li rel="rgb(170, 183, 184" style="background-color: rgb(170, 183, 184)"></li>
+									<li rel="rgb(245, 81, 66)" style="background-color: rgb(245, 81, 66)"></li>
+									<li rel="rgb(250, 135, 62)" style="background-color: rgb(250, 135, 62)"></li>
+									<li rel="rgb(255, 215, 25)" style="background-color: rgb(255, 215, 25)"></li>
+									<li rel="rgb(190, 222, 52)" style="background-color: rgb(190, 222, 52)"></li>
+									<li rel="rgb(41, 194, 135)" style="background-color: rgb(41, 194, 135)"></li>
+									<li rel="rgb(66, 181, 177)" style="background-color: rgb(66, 181, 177)"></li>
+									<li rel="rgb(0, 122, 193)" style="background-color: rgb(0, 122, 193)"></li>
+									<li rel="rgb(110, 96, 187)" style="background-color: rgb(110, 96, 187)"></li>
+									<li rel="rgb(205, 111, 206" style="background-color: rgb(205, 111, 206)"></li>
+									
+									<li rel="rgb(137, 149, 161)" style="background-color: rgb(137, 149, 161)"></li>
+									<li rel="rgb(222, 106, 103)" style="background-color: rgb(222, 106, 103)"></li>
+									<li rel="rgb(220, 118, 51)" style="background-color: rgb(220, 118, 51)"></li>
+									<li rel="rgb(252, 184, 19)" style="background-color: rgb(252, 184, 19)"></li>
+									<li rel="rgb(167, 203, 52)" style="background-color: rgb(167, 203, 52)"></li>
+									<li rel="rgb(158, 221, 148)" style="background-color: rgb(158, 221, 148)"></li>
+									<li rel="rgb(60, 193, 191)" style="background-color: rgb(60, 193, 191)"></li>
+									<li rel="rgb(108, 145, 200)" style="background-color: rgb(108, 145, 200)"></li>
+									<li rel="rgb(114, 106, 175)" style="background-color: rgb(114, 106, 175)"></li>
+									<li rel="rgb(175, 121, 198)" style="background-color: rgb(175, 121, 198)"></li>
+									
+									<li rel="rgb(86, 101, 115)" style="background-color: rgb(86, 101, 115)"></li>
+									<li rel="rgb(225, 75, 70)" style="background-color: rgb(225, 75, 70)"></li>
+									<li rel="rgb(198, 97, 54)" style="background-color: rgb(198, 97, 54)"></li>
+									<li rel="rgb(216, 173, 87)" style="background-color: rgb(216, 173, 87)"></li>
+									<li rel="rgb(252, 184, 19)" style="background-color: rgb(252, 184, 19)"></li>
+									<li rel="rgb(136, 181, 56)" style="background-color: rgb(136, 181, 56)"></li>
+									<li rel="rgb(67, 139, 131)" style="background-color: rgb(67, 139, 131)"></li>
+									<li rel="rgb(95, 116, 176)" style="background-color: rgb(95, 116, 176)"></li>
+									<li rel="rgb(106, 99, 153)" style="background-color: rgb(106, 99, 153)"></li>
+									<li rel="rgb(137, 92, 169)" style="background-color: rgb(137, 92, 169)"></li>
+									
+									<li rel="rgb(76, 86, 97)" style="background-color: rgb(76, 86, 97)"></li>
+									<li rel="rgb(171, 83, 73)" style="background-color: rgb(171, 83, 73)"></li>
+									<li rel="rgb(157, 75, 72)" style="background-color: rgb(157, 75, 72)"></li>
+									<li rel="rgb(174, 133, 90)" style="background-color: rgb(174, 133, 90)"></li>
+									<li rel="rgb(113, 154, 56)" style="background-color: rgb(113, 154, 56)"></li>
+									<li rel="rgb(67, 122, 88)" style="background-color: rgb(67, 122, 88)"></li>
+									<li rel="rgb(70, 124, 110)" style="background-color: rgb(70, 124, 110)"></li>
+									<li rel="rgb(48, 76, 143)" style="background-color: rgb(48, 76, 143)"></li>
+									<li rel="rgb(96, 87, 145)" style="background-color: rgb(96, 87, 145)"></li>
+									<li rel="rgb(112, 81, 140)" style="background-color: rgb(112, 81, 140)"></li>
+								</ul>
 							</label>
 
 							<div class="footer-form">
@@ -511,10 +590,10 @@
 	<script type="text/javascript">
 
 		$(document).ready(function() {
-			/*$('#nova_categoria').modal('show');
+			//$('#nova_categoria').modal('show');
 			setInterval(function(){ 
-				$('.modal-backdrop').css('opacity','.5');
-			}, 1000);*/
+				//$('.modal-backdrop').css('opacity','.5');
+			}, 1000);
 		});
 
 		/* #form-categoria-novo */
@@ -667,6 +746,13 @@
 
         	<?php }
         } ?>
+
+        $('#list-cores li').click(function(){
+        	$('#list-cores li').removeClass('active');
+        	$(this).addClass('active');
+        	color = $(this).attr('rel');
+        	$('#ct_color').val(color).css('background-color',color);
+        });
 	</script>
 </body>
 

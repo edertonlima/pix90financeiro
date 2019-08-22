@@ -11,7 +11,10 @@
 	//echo(json_encode($sql));
 
 	if ($mysqli->query($sql) === TRUE) {
-		echo $mysqli->insert_id;
+		$cadastro = array('id' => $mysqli->insert_id, 'titulo' => $ct_nome, 'color' => $ct_color);
+		//return $cadastro;
+		echo json_encode($cadastro);
+		//echo $mysqli->insert_id;
 	} else {
 		echo(json_encode($mysqli->error));
 	}
