@@ -86,24 +86,26 @@
 									<?php //var_dump($pagamentos); if(count($pagamentos) > 0){
 										$i = 0;
 										foreach ($pagamentos as $key => $pagamento) { ?>
-											<tr>
+											<tr id="pagamento-<?php echo $pagamento->pg_id; ?>">
 												<td class="align-middle">
-													<span style="display: none;"><?php echo $i; ?></span>
-													<?php 
-														if($pagamento->pg_datapagamento){ ?>
-															<i class="fas fa-circle text-success"></i>
-														<?php }else{
-															if($pagamento->pg_data < date('Y-m-d')){ ?>
-																<i class="fas fa-circle text-danger"></i>
+													<div class="ico-status">
+														<span style="display: none;"><?php echo $i; ?></span>
+														<?php 
+															if($pagamento->pg_datapagamento){ ?>
+																<i class="fas fa-circle text-success"></i>
 															<?php }else{
-																if($pagamento->pg_data == date('Y-m-d')){ ?>
-																	<i class="fas fa-circle text-warning "></i>
-																<?php }else{ ?>
-																	<i class="fas fa-circle text-muted"></i>
-																<?php }
+																if($pagamento->pg_data < date('Y-m-d')){ ?>
+																	<i class="fas fa-circle text-danger"></i>
+																<?php }else{
+																	if($pagamento->pg_data == date('Y-m-d')){ ?>
+																		<i class="fas fa-circle text-warning "></i>
+																	<?php }else{ ?>
+																		<i class="fas fa-circle text-muted"></i>
+																	<?php }
+																}
 															}
-														}
-													?>
+														?>
+													</div>
 												</td>
 												<td class="align-middle"><span class="data-pagamento">
 													<?php
@@ -132,11 +134,24 @@
 													<?php echo number_format($pagamento->pg_valor, 2, ',', '.'); ?>
 												</td>
 												<td class="align-middle">
-													<?php if($pagamento->pg_datapagamento){ ?>
-														<i class="fas fa-lg fa-thumbs-up text-success"></i>
-													<?php }else{ ?>
-														<i class="fas fa-lg fa-thumbs-up text-muted"></i>
-													<?php } ?>
+													<div class="btn-status">
+														<?php if($pagamento->pg_datapagamento){ ?>
+															<a class="btn" onclick="pagamento_status('pago',<?php echo $pagamento->pg_id; ?>,'<?php echo $pagamento->pg_data; ?>')">
+																<i class="fas fa-lg fa-thumbs-up text-success"></i>
+															</a>
+														<?php }else{ 
+																if($pagamento->pg_data < date('Y-m-d')){ ?>
+																	<a class="btn" onclick="pagamento_status('pendente',<?php echo $pagamento->pg_id; ?>,'<?php echo $pagamento->pg_data; ?>')">
+																		<i class="far fa-lg fa-thumbs-down text-danger"></i>
+																	</a>
+																<?php }else{ ?>
+																	<a class="btn" onclick="pagamento_status('pendente',<?php echo $pagamento->pg_id; ?>,'<?php echo $pagamento->pg_data; ?>')">
+																		<i class="far fa-lg fa-thumbs-up text-muted"></i>
+																	</a>
+																<?php }
+															}
+														?>
+													</div>
 
 	<!-- MODAL DETALHE PAGAMENTO -->
 	<div class="modal fade modal-bottom modal-no-scrolling detalhe-pagamento" id="detalhe-pagamento-<?php echo $pagamento->pg_id; ?>" tabindex="-1" role="dialog"

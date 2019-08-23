@@ -237,6 +237,13 @@ table.dataTable {
 
 
 /* pagamentos */
+.footer-form {
+	width: 100%;
+}
+.btn-excluir-cat {
+	float: right;
+	margin-top: 10px;
+}
 #nova_categoria, #editar_categoria {
 	.modal-dialog {
 		max-width: 300px;

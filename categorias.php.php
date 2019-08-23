@@ -55,7 +55,7 @@
 					<div class="card">
 						<div class="card-body">
 							<table class="table data-table responsive table-striped" 
-								data-order="[[ 0, &quot;asc&quot; ]]" id="list-categoria">
+								data-order="[[ 1, &quot;asc&quot; ]]" id="list-categoria">
 								<thead class="no-thead">
 									<tr>
 										<th></th>
@@ -197,6 +197,7 @@
 							<div class="footer-form">
 								<input type="hidden" name="editar_ct_id" id="editar_ct_id" value="">
 								<button type="button" id="submit-form-categoria-editar" class="btn btn-sm btn-success"><i class="fas fa-check"></i> Salvar</button>
+								<a href="javascript:" class="btn-excluir-cat text-danger" data-id=""><i class="fas fa-times"></i> Excluir</a>
 							</div>
 						</div>
 					</form>
@@ -336,41 +337,79 @@
 	<script src="js/scripts.js"></script>
 
 	<script type="text/javascript">
-		var tabela_categoria = '';
-		$(document).ready(function() {
-			tabela_categoria = $('#list-categoria').DataTable({
-				responsive: false,
-		        bLengthChange: false,
-		        searching: true,
-		        destroy: true,
-		        info: false,
-		        sDom: '<"row view-filter"<"col-sm-12"<"float-left"l><"float-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
-		        pageLength: 8,
-		        language: {
-		          sSearch: "Pesquisar:&nbsp;&nbsp;&nbsp;",
-		          paginate: {
-		            previous: "<i class='simple-icon-arrow-left'></i>",
-		            next: "<i class='simple-icon-arrow-right'></i>"
-		          }
-		        },
-				columns: [
-					{ data: 'icon' },
-					{ data: 'name' }
-				],
-		        drawCallback: function () {
-		          $($(".dataTables_wrapper .pagination li:first-of-type"))
-		            .find("a")
-		            .addClass("prev");
-		          $($(".dataTables_wrapper .pagination li:last-of-type"))
-		            .find("a")
-		            .addClass("next");
 
-		          $(".dataTables_wrapper .pagination").addClass("pagination-sm");
-		        }
+		// datatable
+		var tabela_categoria = $('#list-categoria').DataTable({
+			responsive: false,
+	        bLengthChange: false,
+	        searching: true,
+	        destroy: true,
+	        info: false,
+	        sDom: '<"row view-filter"<"col-sm-12"<"float-left"l><"float-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
+	        pageLength: 8,
+	        language: {
+	        	emptyTable: "Sem dados disponíveis na tabela",
+	          	sSearch: "Pesquisar:&nbsp;&nbsp;&nbsp;",
+	          	paginate: {
+	            	previous: "<i class='simple-icon-arrow-left'></i>",
+	            	next: "<i class='simple-icon-arrow-right'></i>"
+	          	}
+	        },
+	        drawCallback: function () {
+	          $($(".dataTables_wrapper .pagination li:first-of-type"))
+	            .find("a")
+	            .addClass("prev");
+	          $($(".dataTables_wrapper .pagination li:last-of-type"))
+	            .find("a")
+	            .addClass("next");
+
+	          $(".dataTables_wrapper .pagination").addClass("pagination-sm");
+	        }
+		});
+
+
+		$(document).ready(function() {
+			// excluir categoria
+			$('.btn-excluir-cat').click(function(){
+
+					ct_id = $(this).attr('data-id');
+					result = new Array();
+			
+					$.getJSON("db/categoria_excluir.php", { 
+						ct_id:ct_id,
+					}, function(result){
+						
+						$('#editar_categoria').modal('hide');
+						$('#form-categoria-editar').trigger("reset");
+
+						tabela_categoria
+						.row( $('#categoria-'+result.ct_id) )
+						.remove()
+						.draw();
+
+			            $.notify({
+			                title: 'Categoria excluida com sucesso!',
+			                message: ''
+
+			            },{
+			                type: 'success',
+			                placement: {
+			                    from: "bottom",
+			                    align: "right"
+			                },
+			            });
+
+						return false;
+					});
+	    	});
+
+
+	    	// #form-categoria-novo
+			$('#btn_nova_categoria').click(function(){
+				$('#form-categoria-novo').trigger("reset");
+				$('#form-categoria-novo #ct_color').css('background-color','');	
 			});
 
-
-			/* #form-categoria-novo */
 			$('#submit-form-categoria-novo').click(function(){
 				$('#form-categoria-novo').submit(); 		
 			});
@@ -383,7 +422,7 @@
 			
 					$.getJSON("db/categoria_novo.php", { 
 						ct_nome:ct_nome,
-						ct_color:ct_color,
+						ct_color:ct_color
 					}, function(result){
 						
 						$('#nova_categoria').modal('hide');
@@ -404,53 +443,33 @@
 			                },
 			            });
 
-			            var data = [
-			            	{
-			            		icon : '<td width="30"><i class="fas fa-square" style="font-size: 1.5rem; color: '+result.color+'"></i></td>',
-			            		name : '<td class="align-middle"><a href="javascript:" class="editar_categoria" data-id="'+result.id+'" data-nome="'+result.titulo+'" data-cor="'+result.color+'">'+result.titulo+'</a></td>'
-			            	}
-			            ];
-			            tabela_categoria.rows.add(data).draw( false );
+						tabela_categoria
+						.row.add( [
+							'<td width="30"><i class="fas fa-square" style="font-size: 1.5rem; color: '+result.color+'"></i></td>',
+							'<td class="sorting_1"><a href="javascript:" class="editar_categoria" data-id="'+result.id+'" data-nome="'+result.titulo+'" data-cor="'+result.color+'">'+result.titulo+'</a></td>'
+						] )
+						.draw()
+						.node()
+						.id = 'categoria-'+result.id;
 
 						/*tabela_categoria
-						.row.add( [
-
-												'',
-												''
-
-						] )
+						.order( [ 1, 'asc' ] )
 						.draw();*/
 
-						tabela_categoria
-						.order( [ 1, 'asc' ] )
-						.draw( false );
-
-
-
-						//tabela_categoria.reload()
-						//tabela_categoria.colReorder.reset();
-						//tabela_categoria.destroy();
+						/*$( rowNode )
+							.css( 'color', 'red' )
+							.animate( { color: 'black' } );*/
 
 						return false;
 					});
 	    		}
 	    	});
 
-	        $('.list-cores li').click(function(){
-	        	$('.list-cores li').removeClass('active');
-	        	$(this).addClass('active');
-	        	color = $(this).attr('rel');
-	        	$(this).parents('label').find('input').val(color).css('background-color',color);
-	        });
 
-	        $('.editar_categoria').click(function(){
-	        	$('#form-categoria-editar input[name="editar_ct_id"]').val($(this).attr('data-id'));
-	        	$('#form-categoria-editar input[name="editar_ct_nome"]').val($(this).attr('data-nome'));
-	        	$('#form-categoria-editar input[name="editar_ct_color"]').val($(this).attr('data-cor')).css('background-color',$(this).attr('data-cor'));
-	        	$('#editar_categoria').modal('show');
-	        });
 
-			/* #form-categoria-editar */
+
+
+			// #form-categoria-editar
 			$('#submit-form-categoria-editar').click(function(){
 				$('#form-categoria-editar').submit(); 		
 			});
@@ -467,14 +486,10 @@
 						ct_nome:ct_nome,
 						ct_color:ct_color,
 					}, function(result){
-
-						//console.log(result);
-						//alert(result.titulo);
 						
 						$('#editar_categoria').modal('hide');
 						$('#form-categoria-editar').trigger("reset");
 
-						//alert(result.ct_id);
 						$('#categoria-'+result.ct_id+' .fa-square').css('color',result.ct_color);
 						$('#categoria-'+result.ct_id+' a').html(result.ct_nome).attr('data-nome',result.ct_nome).attr('data-cor',result.ct_color);
 
@@ -500,12 +515,9 @@
 						] )
 						.draw( false );
 
-						tabela_categoria
+						/*tabela_categoria
 						.order( [ 1, 'asc' ] )
 						.draw();*/
-
-						//tabela_categoria.colReorder.reset();
-						//tabela_categoria.destroy();
 
 						return false;
 					});
@@ -513,6 +525,29 @@
 	    	});
 
 	    });
+	</script>
+
+	<script type="text/javascript">
+		// pick color
+        $('.list-cores li').click(function(){
+        	$('.list-cores li').removeClass('active');
+        	$(this).addClass('active');
+        	color = $(this).attr('rel');
+        	$(this).parents('label').find('input').val(color).css('background-color',color);
+        });
+
+
+        // modal editar categoria
+		$(document).on('click','.editar_categoria',function(){
+        	$('.btn-excluir-cat').attr('data-id',$(this).attr('data-id'));
+        	$('#form-categoria-editar input[name="editar_ct_id"]').val($(this).attr('data-id'));
+        	$('#form-categoria-editar input[name="editar_ct_nome"]').val($(this).attr('data-nome'));
+        	$('#form-categoria-editar input[name="editar_ct_color"]').val($(this).attr('data-cor')).css('background-color',$(this).attr('data-cor'));
+        	$('#editar_categoria').modal('show');
+		});
+        /*$('.editar_categoria').click(function(){
+
+        });*/
 	</script>
 </body>
 
