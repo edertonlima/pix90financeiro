@@ -4,7 +4,7 @@
 	$page = 'relatorio';
 	$subpage = '';
 
-	if(isset($_POST['filtro'])){
+	/*if(isset($_POST['filtro'])){
 		if($_POST['filtro'] == 'on'){ //var_dump($_POST);
 			
 			if($_POST['data1'] != ''){
@@ -29,21 +29,15 @@
 			}
 
 			$status = $_POST['status'];
-
-			/*var_dump($data1);
-			var_dump($data2);
-			var_dump($filtro_categoria);
-			var_dump($status);*/
-
 			$pagamentos = get_pagamento_filtro($data1,$data2,$filtro_categoria,$status);
 		}
-	}else{
+	}else{*/
 		$data1 = date('Y-m-d',strtotime("-5 day"));
 		$data2 = date('Y-m-d',strtotime("+5 day"));
 		$filtro_categoria = null;
 		$status = 'todos';
 		$pagamentos = get_pagamento_filtro($data1,$data2,$filtro_categoria,$status);
-	}
+	//}
 ?>
 
 <!DOCTYPE html>
@@ -117,36 +111,36 @@
 <form action="<?php echo $home_url; ?>/relatorio.php" method="post">
 	<div class="row mb-4">
 
-		<div class="form-group col-12 col-md-3">
+		<div class="form-group col-12 col-md-5">
 			<div class="input-group mr-2 mb-1" role="group">
-				<input name="data1" type="text" class="form-control datepicker" placeholder="" value="<?php if($data1){ $date = date_create($data1); echo $date->format('d/m/Y');}; ?>">
+				<input name="data1" id="data1" type="text" class="form-control datepicker" placeholder="" value="<?php if($data1){ $date = date_create($data1); echo $date->format('d/m/Y');}; ?>">
 				
 				<div class="input-group-append">
 					<span class="input-group-text" id="basic-addon2">até</span>
 				</div>
 				
-				<input name="data2" type="text" class="form-control datepicker" value="<?php if($data2){ $date = date_create($data2); echo $date->format('d/m/Y');}; ?>" style="margin-left: -1px;">
+				<input name="data2" id="data2" type="text" class="form-control datepicker" value="<?php if($data2){ $date = date_create($data2); echo $date->format('d/m/Y');}; ?>" style="margin-left: -1px;">
 			</div>
 		</div>
 
-		<div class="form-group col-12 col-md-4 text-center">
+		<div class="form-group col-12 col-md-7 text-center">
 			<div class="btn-group mr-2 mb-1 btn-group-toggle" data-toggle="buttons">
-				<label class="btn btn-outline-primary <?php if($status == 'todos'){ echo 'active'; } ?>">
-					<input type="radio" name="status" value="todos" id="" <?php if($status == 'todos'){ echo 'checked="checked"'; } ?>> Todos
+				<label id="todos" class="btn filtro-status-pg btn-outline-primary <?php if($status == 'todos'){ echo 'active'; } ?>" >
+					<input type="radio" name="status" value="todos" <?php if($status == 'todos'){ echo 'checked="checked"'; } ?> > Todos
 				</label>
-				<label class="btn btn-outline-primary <?php if($status == 'avencer'){ echo 'active'; } ?>">
-					<input type="radio" name="status" value="avencer" id="" <?php if($status == 'avencer'){ echo 'checked="checked"'; } ?>> À vencer
+				<label id="a-vencer" class="btn filtro-status-pg btn-outline-primary <?php if($status == 'avencer'){ echo 'active'; } ?>">
+					<input type="radio" name="status" value="avencer" <?php if($status == 'avencer'){ echo 'checked="checked"'; } ?>> À vencer
 				</label>
-				<label class="btn btn-outline-primary <?php if($status == 'vencidas'){ echo 'active'; } ?>">
-					<input type="radio" name="status" value="vencidas" id="" <?php if($status == 'vencidas'){ echo 'checked="checked"'; } ?>> Vencidas
+				<label id="vencidas" class="btn filtro-status-pg btn-outline-primary <?php if($status == 'vencidas'){ echo 'active'; } ?>">
+					<input type="radio" name="status" value="vencidas" <?php if($status == 'vencidas'){ echo 'checked="checked"'; } ?>> Vencidas
 				</label>
-				<label class="btn btn-outline-primary <?php if($status == 'pagas'){ echo 'active'; } ?>">
-					<input type="radio" name="status" value="pagas" id="" <?php if($status == 'pagas'){ echo 'checked="checked"'; } ?>> Pagas
+				<label id="pagas" class="btn filtro-status-pg btn-outline-primary <?php if($status == 'pagas'){ echo 'active'; } ?>">
+					<input type="radio" name="status" value="pagas" <?php if($status == 'pagas'){ echo 'checked="checked"'; } ?>> Pagas
 				</label>
 			</div>
 		</div>
 
-        <div class="form-group col-12 col-md-3">							
+        <div class="form-group col-12 col-md-5">							
 			<select name="filtro_categoria" id="filtro_categoria" class="form-control select2-single">
 				<option value="0">Todas as categorias</option>
 				<?php
@@ -159,10 +153,23 @@
 			</select>
 		</div>
 
+        <div class="form-group col-12 col-md-5">							
+			<select name="filtro_cadastro" id="filtro_cadastro" class="form-control select2-single">
+				<option value="0">Todas os Beneficiário</option>
+				<?php
+					$cadastro = get_cadastros();
+					//$cadastros = get_cadastros();
+					foreach ($cadastro as $key => $value) { ?>
+						<option value="<?php echo $value->cd_id; ?>"><?php echo $value->cd_nome; ?></option>
+					<?php }
+				?>
+			</select>
+		</div>
+
 		<div class="form-group col-12 col-md-2">
             <div class="input-group-append" style="justify-content: right;">
             	<input type="hidden" name="filtro" value="on">
-                <button class="btn btn-primary" type="submit">FILTRAR</button>
+                <button class="btn btn-primary" type="button" id="filtro">FILTRAR</button>
             </div>
         </div>
 
@@ -185,17 +192,16 @@
 </form>
 
 							</div>
-							<table class="table data-table  responsive table-striped" 
+							<table class="table data-table responsive table-striped" 
 								data-order="[[ 0, &quot;asc&quot; ]]" id="relatorio">
 								<thead class="">
 									<tr>
-										<th width="50"></th>
 										<th width="80">Data</th>
 										<th>Descrição</th>
 										<th>Beneficiário</th>
-										<th>Categoria</th>
-										<th>Valor</th>
-										<th width="80"><i class="fas fa-check"></i></th>
+										<th width="150">Categoria</th>
+										<th width="100">Valor</th>
+										<th width="80">Pago em</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -205,29 +211,11 @@
 											foreach ($pagamentos as $key => $pagamento) { ?>
 												<tr>
 													<td class="align-middle">
-														<span style="display: none;"><?php echo $i; ?></span>
-														<?php 
-															if($pagamento->pg_datapagamento){ ?>
-																<i class="fas fa-circle text-success"></i>
-															<?php }else{
-																if($pagamento->pg_data < date('Y-m-d')){ ?>
-																	<i class="fas fa-circle text-danger"></i>
-																<?php }else{
-																	if($pagamento->pg_data == date('Y-m-d')){ ?>
-																		<i class="fas fa-circle text-warning "></i>
-																	<?php }else{ ?>
-																		<i class="fas fa-circle text-muted"></i>
-																	<?php }
-																}
-															}
-														?>
-													</td>
-													<td class="align-middle"><span class="data-pagamento">
 														<?php
 		                                            		$date = date_create($pagamento->pg_data);
 		                                            		echo $date->format('d/m/Y');
 		                                            	?>													
-														</span></td>
+													</td>
 													<td class="align-middle">
 														<?php echo $pagamento->pg_descricao; ?>
 													</td>
@@ -244,22 +232,10 @@
 															if($pagamento->ct_id != 0){
 																$categoria_current = get_categoria($pagamento->ct_id);
 																foreach ($categoria_current as $key => $categoria) { 
-																	if($categoria->ct_rgbbg){
-																		$bg_color = 'background-color:'.$categoria->ct_rgbbg.'!important;';
-																	}else{
-																		$bg_color = '';
-																	}
-																	if($categoria->ct_rgbtxt){
-																		$txt_color = 'color:'.$categoria->ct_rgbtxt.'!important;';
-																	}else{
-																		$txt_color = '';
-																	}
-																	?>
-																	<span class="nome-cadastro">
-																		<i class="fas fa-square" style="padding-right: 2px; color: <?php echo $categoria->ct_color; ?>"></i> 
-																		<?php echo $categoria->ct_nome; ?>
-																	</span>
-																<?php }
+																	
+																	echo $categoria->ct_nome;
+
+																}
 															}
 														?>
 													</td>
@@ -272,9 +248,9 @@
 			                                            		$date = date_create($pagamento->pg_datapagamento);
 			                                            		echo $date->format('d/m/Y');
 			                                            	?>	
-														<?php }else{ ?>
+														<?php }else{ /*?>
 															<i class="fas fa-ellipsis-h text-muted"></i>
-														<?php } ?>
+														<?php */} ?>
 													</td>
 												</tr>
 											<?php $i = $i+1; }
@@ -304,6 +280,8 @@
 	<script src="js/vendor/buttons.html5.min.js"></script>
 	<script src="js/vendor/buttons.print.min.js"></script>
 
+    <script src="js/vendor/jquery.validate/jquery.validate.min.js"></script>
+
 	<script src="js/dore-plugins/select.from.library.js"></script>
 	<script src="js/dore.script.js"></script>
 	<script src="js/scripts.js"></script>
@@ -311,41 +289,6 @@
 	<script type="text/javascript">
 
 	$(document).ready(function() {
-	    $('#relatorio').DataTable( {
-	        bLengthChange: false,
-	        searching: true,
-	        destroy: true,
-	        info: false,
-			/*columns: [
-				{ "width": "10%" },
-				{ "width": "150px" },
-				null,
-				null,
-				null,
-				null,
-				null
-			],*/
-	        dom: 'Bfrtip',
-	        buttons: [
-	            'excelHtml5',
-	            'csvHtml5',
-	            'pdfHtml5',
-		        {
-		            extend: 'print',
-		            text: 'IMPRIMIR',
-		            autoPrint: true
-		        }
-	        ],
-	        pageLength: 20,
-	        language: {
-	          sSearch: "Pesquisar:&nbsp;&nbsp;&nbsp;",
-	          emptyTable: "Nenhum pagamento foi encontrado",
-	          paginate: {
-	            previous: "<i class='simple-icon-arrow-left'></i>",
-	            next: "<i class='simple-icon-arrow-right'></i>"
-	          }
-	        },
-	    });
 
 	    $('#print').click(function(){
 	    	$('.buttons-print').trigger('click');  
@@ -366,6 +309,8 @@
 	});
 
 	</script>
+
+	<?php include 'js_filtro.php'; ?>
 </body>
 
 </html>

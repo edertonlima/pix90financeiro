@@ -34,7 +34,7 @@ Table of Contents
   03.27. Tags Input
   03.28. Sortable
   03.29. State Button
-  03.30. Typeahead
+  03.30. Typeaheadf
   03.31. Full Screen
   03.32. Html Editors
   03.33. Showing Body
@@ -3500,6 +3500,7 @@ $.dore = function (element, options) {
         format: 'dd/mm/yyyy',
         //language: "pt-BR",
         rtl: isRtl,
+        //startDate: '-3d',
         templates: {
           leftArrow: '<i class="simple-icon-arrow-left"></i>',
           rightArrow: '<i class="simple-icon-arrow-right"></i>'

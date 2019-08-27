@@ -200,6 +200,95 @@ $('.theme-button').remove();
 
 // PAGAMENTOS
 
+	// |--- pagamento_novo 
+		// marcar pagamento como pago quando é criado
+		$('#pagamento-marcar-pago').click(function(){
+			if($(this).hasClass('btn-success')){
+				$(this).removeClass('btn-success');
+				$('i',this).addClass('far text-muted').removeClass('fas');
+				$('.txt',this).html('Marcar como pago');
+				$('#marcar-pago').val(false);
+			}else{
+				$(this).addClass('btn-success');
+				$('i',this).removeClass('far text-muted').addClass('fas');
+				$('.txt',this).html('Remover pagamento');
+				$('#marcar-pago').val(true);
+			}
+		});
+
+		// envia dados para cadastrar novo pagamento
+		$('#submit-form-pagamento-novo').click(function(){
+			$('#form-pagamento-novo').submit();		
+		});
+
+		$('#form-pagamento-novo').validate({
+    		submitHandler: function(form) {
+
+				pg_descricao = $('#pg_descricao').val();
+				pg_valor = $('#pg_valor').val();
+
+				ct_id = $('#ct_id').val();
+				cd_id = $('#cd_id').val();
+
+				pg_data = $('#pg_data').val();
+				if(pg_data != ''){
+					parts = pg_data.split('/');
+					pg_data = parts[2]+'-'+parts[1]+'-'+parts[0];
+				}
+
+				pg_observacao = $('#pg_observacao').val();
+
+				pg_datapagamento = $('#marcar-pago').val();
+
+				/*console.log({
+					pg_descricao,
+					pg_valor,
+					pg_data,
+					pg_observacao,
+					pg_datapagamento,
+					cd_id,
+					ct_id
+				});*/
+				
+				$.getJSON("db/pagamento_novo.php", { 
+					pg_descricao:pg_descricao,
+					pg_valor:pg_valor,
+					pg_data:pg_data,
+					pg_observacao:pg_observacao,
+					pg_datapagamento:pg_datapagamento,
+					cd_id:cd_id,
+					ct_id:ct_id
+				}, function(result){
+					$('#form-pagamento').modal('hide');
+					//alert(result);
+					console.log(result);
+					//alert(result);
+					//url_cadastro = '<?php echo $home_url; ?>?&novopagamento=success';
+					//alert(url_cadastro);
+					//$(location).attr('href',url_cadastro);
+
+					$.notify({
+						// options
+						title: 'Novo pagamento cadastrado com sucesso!',
+						message: result
+					},{
+						// settings
+						type: 'success',
+						placement: {
+							from: "bottom",
+							align: "right"
+						},
+					});
+
+
+					return false;
+				});
+    		}
+    	});
+
+
+
+
 	// |--- pagamento_status
 	function pagamento_status(status,id,data){ //alert(status);
 
@@ -225,34 +314,45 @@ $('.theme-button').remove();
 			if(result.pg_status == 'pago'){
 				ico_status = '<i class="fas fa-circle text-success"></i>';
 				btn_onclick = 'pagamento_status(\'pago\','+result.pg_id+',\''+result.pg_data+'\')';
+				txt_status = 'Pagamento efetuado em ';
 				btn_class = 'fas fa-thumbs-up text-success';
 				//btn_status = '<a class="btn" onclick="pagamento_status(pago,'+result.pg_id+','+result.pg_data+')"><i class="fas fa-lg fa-thumbs-up text-success"></i></a>';
 				//alert('PAGO!');
 			}else{
 				if(result.pg_data < data_current){
 					ico_status = '<i class="fas fa-circle text-danger"></i>';
-					btn_class = 'far fa-thumbs-down text-danger';
 					//alert('data passada');
 				}else{
 					if(result.pg_data == data_current){
 						ico_status = '<i class="fas fa-circle text-warning"></i>';
-						btn_class = 'far fa-thumbs-up text-muted';
 						//alert('VENCE HOJE!');
 					}else{
 						ico_status = '<i class="fas fa-circle text-muted"></i>';
-						btn_class = 'far fa-thumbs-up text-muted';
 						//alert('NO PRAZO!');
 					}
 				}
 
+				btn_class = 'far fa-thumbs-up text-muted';
 				btn_onclick = 'pagamento_status(\'pendente\','+result.pg_id+',\''+result.pg_data+'\')';
+				txt_status = 'Marcar como pago '
 				//btn_status = '<a class="btn" onclick="pagamento_status(pendente,'+result.pg_id+','+result.pg_data+')"><i class="fas fa-lg fa-thumbs-up text-muted"></i></a>';
 			}
 
 			//alert(btn_onclick);
 			$('#pagamento-'+result.pg_id+' .ico-status').html(ico_status);
 			$('#pagamento-'+result.pg_id+' .btn-status a').attr('onclick',btn_onclick);
-			$('#pagamento-'+result.pg_id+' .btn-status a i').removeClass('far fas fa-thumbs-up fa-thumbs-down text-muted text-danger text-success').addClass(btn_class);
+			$('#pagamento-'+result.pg_id+' .btn-status a i').removeClass('far fas text-muted text-success').addClass(btn_class);
+
+			$('#detalhe-pagamento-'+result.pg_id+' .modal-title .ico-title').html(ico_status);
+			$('#detalhe-pagamento-'+result.pg_id+' .status-pag-modal a').attr('onclick',btn_onclick);
+			$('#detalhe-pagamento-'+result.pg_id+' .status-pag-modal a i').removeClass('far fas text-muted text-success').addClass(btn_class);
+			$('#detalhe-pagamento-'+result.pg_id+' .status-pag-modal a .txt').html(txt_status);
+
+			if(result.pg_status == 'pago'){
+				$('#detalhe-pagamento-'+result.pg_id+' .status-pag-modal a .data').html(result.pg_datapagamento);
+			}else{
+				$('#detalhe-pagamento-'+result.pg_id+' .status-pag-modal a .data').html('');
+			}
 
             $.notify({
                 // options
@@ -284,3 +384,92 @@ $('.theme-button').remove();
 		});
 
 	}
+
+
+
+	// |--- pagamento_excluir
+	function pagamento_excluir(id){
+		result = new Array();
+
+		$.getJSON("db/pagamento_excluir.php", { 
+			pg_id:id,
+		}, function(result){
+			
+			$('#detalhe-pagamento-'+id).modal('hide');
+
+			tabela_pagamento
+			.row( $('#pagamento-'+result.pg_id) )
+			.remove()
+			.draw();
+
+            $.notify({
+                title: 'Pagamento excluido com sucesso!',
+                message: ''
+
+            },{
+                type: 'success',
+                placement: {
+                    from: "bottom",
+                    align: "right"
+                },
+            });
+
+			return false;
+		});
+	}
+
+	$("body").on("click", ".pagamento_excluir", function (event) {
+		pagamento_excluir($(this).attr('rel'));
+	});
+
+
+
+	// |--- editar_pagamento
+	function editar_pagamento(){
+
+	}
+
+	$("body").on("click", ".submit-form-pagamento-editar", function (event) {
+		id = $(this).attr('rel');
+		$('#form-pagamento-editar-'+id).submit(); 
+	});
+
+	$('.form-pagamento-editar').validate({
+		submitHandler: function(form) {
+
+			//id = $(this).attr('rel');
+
+
+			pg_id = $('#form-pagamento-editar-'+id+' input[name="pg_id"]').val();
+			pg_descricao = $('#form-pagamento-editar-'+id+' input[name="pg_descricao"]').val();
+			pg_valor = $('#form-pagamento-editar-'+id+' input[name="pg_valor"]').val(); 
+
+			ct_id = $('input[name="ct_id-'+id+'"]').val(); //alert(ct_id);
+			cd_id = $('#form-pagamento-editar-'+id+' input[name="cd_id"]').val(); //alert(cd_id);
+
+			pg_data = $('#form-pagamento-editar-'+id+' input[name="pg_data"]').val();
+			if(pg_data != ''){
+				parts = pg_data.split('/');
+				pg_data = parts[2]+'-'+parts[1]+'-'+parts[0];
+			}
+
+			pg_categoria = $('#form-pagamento-editar-'+id+' input[name="pg_categoria"]').val(); //alert(pg_categoria);
+			pg_observacao = $('#form-pagamento-editar-'+id+' input[name="pg_observacao"]').val(); //alert(pg_observacao);
+		
+				$.getJSON("db/pagamento_editar.php", { 
+					pg_id:pg_id,
+					pg_descricao:pg_descricao,
+					pg_valor:pg_valor,
+					pg_data:pg_data,
+					pg_observacao:pg_observacao,
+					cd_id:cd_id,
+					ct_id:ct_id
+				}, function(result){
+					//alert(result);
+					url_cadastro = '?&editarpagamento=success';
+					//alert(url_cadastro);
+					$(location).attr('href',url_cadastro);
+					return false;
+				});
+		}
+	});

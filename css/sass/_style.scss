@@ -127,7 +127,28 @@ table.dataTable {
 			right: 30px;
 		}
 	}
+
+	.modal-body {
+		form {
+			input {
+				padding-top: 15px;
+				padding-bottom: 9px;
+			}
+		}
+
+		#marcar-pago {
+			&.active {
+
+			}
+		}
+	}
 	.modal-footer {
+		justify-content: center;
+		flex-grow: 0;
+		flex-shrink: 0;
+		border-top: none;
+		padding-top: 0;
+
 		.item {
 			i {
 				position: relative;
@@ -142,6 +163,17 @@ table.dataTable {
 			a {
 				padding: 0 2px;
 				margin-left: 5px;
+				@include animacao;
+
+				&:hover {
+					color: $azul!important;;
+				}
+
+				&.pagamento_excluir {
+					&:hover {
+						color: $vermelho!important;
+					}
+				}
 			}
 
 			&:first-child {
@@ -168,12 +200,6 @@ table.dataTable {
 				}
 			}
 		}
-	}
-
-	.modal-footer {
-		justify-content: center;
-		flex-grow: 0;
-		flex-shrink: 0;
 	}
 }
 
@@ -237,6 +263,14 @@ table.dataTable {
 
 
 /* pagamentos */
+.btn-status a.btn {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.ico-title {
+	display: inline-block;
+}
 .footer-form {
 	width: 100%;
 }
@@ -301,7 +335,7 @@ button.novo-pagamento {
 
 	.modal-body {
 		padding-top: 10px;
-		padding-left: 63px;
+		//padding-left: 63px;
 
 		.valor-pagamento {
 			strong	{

@@ -3,7 +3,13 @@
 	include 'db/function_db.php';
 	$page = 'pagamento';
 	$subpage = 'pagamento-list';
-	$pagamentos = get_pagamento();
+	//$pagamentos = get_pagamento();
+
+		$data1 = '2019-08-26';
+		$data2 = '2019-09-01';
+		$filtro_categoria = null;
+		$status = 'todos';
+		$pagamentos = get_pagamento_filtro($data1,$data2,$filtro_categoria,$status);
 ?>
 
 <!DOCTYPE html>
@@ -64,14 +70,55 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="header-table">
-								<div class="filtro-data">
+
+<form action="<?php echo $home_url; ?>/relatorio.php" method="post">
+	<div class="row mb-4">
+
+		<div class="form-group col-12 col-md-5">
+			<div class="input-group mr-2 mb-1" role="group">
+				<input name="data1" id="data1" type="text" class="form-control datepicker" placeholder="" value="<?php if($data1){ $date = date_create($data1); echo $date->format('d/m/Y');}; ?>">
+				
+				<div class="input-group-append">
+					<span class="input-group-text" id="basic-addon2">até</span>
+				</div>
+				
+				<input name="data2" id="data2" type="text" class="form-control datepicker" value="<?php if($data2){ $date = date_create($data2); echo $date->format('d/m/Y');}; ?>" style="margin-left: -1px;">
+			</div>
+		</div>
+
+		<div class="form-group col-12 col-md-2">
+            <div class="input-group-append" style="justify-content: right;">
+            	<input type="hidden" name="filtro" value="on">
+                <button class="btn btn-primary" type="button" id="filtro">FILTRAR</button>
+            </div>
+        </div>
+
+		<?php /*<div class="input-group col-md-4">
+
+			<label class="form-group btn-group-sm col-md-4">
+				<select name="estado" id="estado" class="form-control select2-single">
+					<?php
+						$categorias = get_categoria(null);
+						//$cadastros = get_cadastros();
+						foreach ($categorias as $key => $value) { ?>
+							<option value="<?php echo $value->ct_id; ?>" <?php if($value->ct_id == 1): echo 'selected="selected"'; endif; ?>><?php echo $value->ct_nome; ?></option>
+						<?php }
+					?>
+				</select>
+			</label>
+
+		</div>*/ ?>
+	</div>
+</form>
+
+								<div class="filtro-data" style="display: none;">
 									<i class="fas fa-chevron-left"></i>
 									<span>11 de Ago à 17 de Ago</span>
 									<i class="fas fa-chevron-right"></i>
 								</div>
 							</div>
-							<table class="table data-table data-tables-pagination responsive table-striped" 
-								data-order="[[ 0, &quot;asc&quot; ]]">
+							<table class="table data-table responsive table-striped" 
+								data-order="[[ 0, &quot;asc&quot; ]]" id="list-pagamento">
 								<thead class="no-thead">
 									<tr>
 										<th></th>
@@ -122,7 +169,7 @@
 													<?php
 														if($pagamento->ct_id != 0){
 															$categoria_current = get_categoria($pagamento->ct_id);
-															foreach ($categoria_current as $key => $categoria) { ?>
+															foreach ($categoria_current as $key => $categoria) { //var_dump($categoria); ?>
 																<i class="fas fa-square" style="padding-right: 2px; color: <?php echo $categoria->ct_color; ?>"></i> 
 																<?php echo $categoria->ct_nome; ?>
 															<?php }
@@ -139,17 +186,12 @@
 															<a class="btn" onclick="pagamento_status('pago',<?php echo $pagamento->pg_id; ?>,'<?php echo $pagamento->pg_data; ?>')">
 																<i class="fas fa-lg fa-thumbs-up text-success"></i>
 															</a>
-														<?php }else{ 
-																if($pagamento->pg_data < date('Y-m-d')){ ?>
-																	<a class="btn" onclick="pagamento_status('pendente',<?php echo $pagamento->pg_id; ?>,'<?php echo $pagamento->pg_data; ?>')">
-																		<i class="far fa-lg fa-thumbs-down text-danger"></i>
-																	</a>
-																<?php }else{ ?>
+														<?php }else{ ?>
+
 																	<a class="btn" onclick="pagamento_status('pendente',<?php echo $pagamento->pg_id; ?>,'<?php echo $pagamento->pg_data; ?>')">
 																		<i class="far fa-lg fa-thumbs-up text-muted"></i>
 																	</a>
-																<?php }
-															}
+															<?php }
 														?>
 													</div>
 
@@ -161,21 +203,23 @@
 				<div class="modal-header contaner-info">			
 	
 					<h2 class="modal-title">
-						<?php 
-							if($pagamento->pg_datapagamento){ ?>
-								<i class="fas fa-circle text-success"></i>
-							<?php }else{
-								if($pagamento->pg_data < date('Y-m-d')){ ?>
-									<i class="fas fa-circle text-danger"></i>
+						<div class="ico-title">
+							<?php 
+								if($pagamento->pg_datapagamento){ ?>
+									<i class="fas fa-circle text-success"></i>
 								<?php }else{
-									if($pagamento->pg_data == date('Y-m-d')){ ?>
-										<i class="fas fa-circle text-warning "></i>
-									<?php }else{ ?>
-										<i class="fas fa-circle text-muted"></i>
-									<?php }
+									if($pagamento->pg_data < date('Y-m-d')){ ?>
+										<i class="fas fa-circle text-danger"></i>
+									<?php }else{
+										if($pagamento->pg_data == date('Y-m-d')){ ?>
+											<i class="fas fa-circle text-warning "></i>
+										<?php }else{ ?>
+											<i class="fas fa-circle text-muted"></i>
+										<?php }
+									}
 								}
-							}
-						?>
+							?>
+						</div>
 						<strong><?php echo $pagamento->pg_descricao; ?></strong>
 					</h2>					
 					
@@ -200,7 +244,7 @@
 						?>
 						<span class="nome-cadastro"><i class="iconsminds-male"></i> 
 							<?php 
-								$cadastro = get_cadastro($pagamento->pg_id);
+								$cadastro = get_cadastro($pagamento->cd_id);
 								echo $cadastro->cd_nome;
 							?>
 						</span>
@@ -227,21 +271,36 @@
 
 				</div>
 				<div class="modal-footer">
-					<div class="item">
+					<div class="item status-pag-modal">
+
 						<?php if($pagamento->pg_datapagamento){ ?>
-							<i class="fas fa-lg fa-thumbs-up text-success"></i>Pagamento efetuado em 12/07/2019
+							<a class="btn" onclick="pagamento_status('pago',<?php echo $pagamento->pg_id; ?>,'<?php echo $pagamento->pg_data; ?>')">
+								<i class="fas fa-lg fa-thumbs-up text-success"></i>
+								<span class="txt">Pagamento efetuado em </span>
+								<span class="data">
+									<?php
+		                        		$date = date_create($pagamento->pg_datapagamento);
+		                        		echo $date->format('d/m/Y');
+		                        	?>
+								</span>
+							</a>
 						<?php }else{ ?>
-							<i class="fas fa-lg fa-thumbs-up text-muted"></i>Marcar como pago
+							<a class="btn" onclick="pagamento_status('pendente',<?php echo $pagamento->pg_id; ?>,'<?php echo $pagamento->pg_data; ?>')">
+								<i class="far fa-lg fa-thumbs-up text-muted"></i>
+								<span class="txt">Marcar como pago</span>
+								<span class="data"></span>
+							</a>
 						<?php } ?>
+
 					</div>
 					<div class="item">
-						<a href="javascript:" class="text-muted close-det-pagamento editar-pagamento" id="" title="" data-toggle="modal" data-target="#form-pagamento-<?php echo $pagamento->pg_id; ?>"><i class="far fa-edit"></i>Editar</a>
+						<a href="javascript:" class="text-muted editar_pagamento" id="" title="" data-toggle="modal" data-target="#form-pagamento-<?php echo $pagamento->pg_id; ?>"><i class="far fa-edit"></i>Editar</a>
 					</div>
 					<div class="item">
 						<a href="javascript:" class="text-muted close-det-pagamento" id="copiar-pagamento" title=""><i class="far fa-copy"></i>Copiar</a>
 					</div>
 					<div class="item">
-						<a href="javascript:" class="text-muted" title=""><i class="far fa-trash-alt"></i>Excluir</a>
+						<a href="javascript:" class="text-muted pagamento_excluir" rel="<?php echo $pagamento->pg_id; ?>" title=""><i class="far fa-trash-alt"></i>Excluir</a>
 					</div>
 				</div>
 			</div>
@@ -261,33 +320,34 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="form-pagamento-novo" novalidate>
+					<form id="form-pagamento-editar-<?php echo $pagamento->pg_id; ?>" rel="<?php echo $pagamento->pg_id; ?>" class="form-pagamento-editar" novalidate>
 						<div class="form-row">
 							<label class="form-group col-md-12 has-float-label">
-								<input type="text" name="pg_descricao" id="pg_descricao" class="form-control " required="" value="<?php echo $pagamento->pg_descricao; ?>" />
+								<input type="text" name="pg_descricao" id="" class="form-control " required="" value="<?php echo $pagamento->pg_descricao; ?>" />
 								<span>Descrição</span>
 							</label>
 
 							<label class="form-group col-md-6 has-float-label input-legenda">
-								<input id="pg_valor" class="form-control " data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'prefix': '€ ', 'placeholder': '0'" required="" />
+								<input type="text" name="pg_valor" class="form-control " data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'prefix': '€ ', 'placeholder': '0'" required="" value="<?php echo number_format($pagamento->pg_valor, 2, ',', '.'); ?>" />
 								<span>Valor</span>
 								<small>R$</small>
 							</label>
 
 							<label class="form-group col-md-6 has-float-label input-legenda">
-								<input id="pg_data" class="form-control datepicker" required="" />
+								<input name="pg_data" id="" class="form-control datepicker" required="" 
+									value="<?php $date = date_create($pagamento->pg_data); echo $date->format('d/m/Y'); ?>" />
 								<span>Data de Pagamento</span>
 								<small><i class="far fa-calendar-alt"></i></small>
 							</label>
 
 							<label class="form-group col-md-6 has-float-label">
-								<select id="cd_id" name="cd_id" class="form-control select2-single">
+								<select id="" name="cd_id" class="form-control select2-single">
 									<option label="&nbsp;">&nbsp;</option>
 									<?php
 										$cadastro = get_cadastros();
 										//$cadastros = get_cadastros();
 										foreach ($cadastro as $key => $value) { ?>
-											<option value="<?php echo $value->cd_id; ?>"><?php echo $value->cd_nome; ?></option>
+											<option value="<?php echo $value->cd_id; ?>" <?php if($value->cd_id == $pagamento->cd_id): echo 'selected="selected"'; endif; ?>><?php echo $value->cd_nome; ?></option>
 										<?php }
 									?>
 								</select>
@@ -295,12 +355,14 @@
 							</label>
 
 							<label class="form-group col-md-6 has-float-label">
-								<select class="form-control select2-single"  id="ct_id">
+								<select class="form-control select2-single" name="ct_id-<?php echo $pagamento->pg_id; ?>">
 									<?php
 										$categorias = get_categoria(null);
 										//$cadastros = get_cadastros();
 										foreach ($categorias as $key => $value) { ?>
-											<option value="<?php echo $value->ct_id; ?>" <?php if($value->ct_id == 1): echo 'selected="selected"'; endif; ?>><?php echo $value->ct_nome; ?></option>
+
+											<option value="<?php echo $value->ct_id; ?>" <?php if($value->ct_id == $categoria->ct_id): echo 'selected="selected"'; endif; ?>><?php echo $value->ct_nome; ?></option>
+										
 										<?php }
 									?>
 								</select>
@@ -308,7 +370,7 @@
 							</label>
 
 							<label class="form-group col-md-12 has-float-label">
-								<textarea name="pg_observacao" class="form-control" id="pg_observacao"></textarea>
+								<textarea name="pg_observacao" class="form-control" id=""><?php echo $pagamento->pg_observacao; ?></textarea>
 								<span>Observação</span>
 							</label>
 						</div>
@@ -316,7 +378,8 @@
 				</div>
 				<div class="modal-footer hover-item">
 					<div class="item">
-						<button type="button" rel="" class="btn btn-success submit-form-pagamento-novo"><i class="fas fa-check"></i> Salvar</button>
+						<input type="hidden" name="pg_id" id="" value="<?php echo $pagamento->pg_id; ?>">
+						<button type="button" rel="<?php echo $pagamento->pg_id; ?>" class="btn btn-success submit-form-pagamento-editar"><i class="fas fa-check"></i> Salvar</button>
 					</div>
 				</div>
 			</div>
@@ -357,8 +420,8 @@
 
 							<label class="form-group col-md-12 has-float-label">
 								<span class="tit-color">Selecione uma cor: </span>
-								<input name="ct_color" id="ct_color" class="form-control" required="" value="rgb(240, 240, 240)" style="background-color: rgb(240, 240, 240);" />
-								<ul id="list-cores">
+								<input name="ct_color" id="ct_color" class="form-control ct_color" required="" value="rgb(240, 240, 240)" style="background-color: rgb(240, 240, 240);" />
+								<ul class="list-cores">
 									<li rel="rgb(240, 240, 240)" style="background-color: rgb(240, 240, 240)"></li>
 									<li rel="rgb(255, 214, 214)" style="background-color: rgb(255, 214, 214)"></li>
 									<li rel="rgb(255, 214, 173)" style="background-color: rgb(255, 214, 173)"></li>
@@ -475,8 +538,8 @@
 							</label>
 
 							<label class="form-group col-md-6 has-float-label input-legenda">
-								<input id="pg_data" class="form-control datepicker" required="" />
-								<span>Data de Pagamento</span>
+								<input id="pg_data" class="form-control datepicker" required="" value="<?php echo date('d/m/Y'); ?>" />
+								<span>Data para Pagamento</span>
 								<small><i class="far fa-calendar-alt"></i></small>
 							</label>
 
@@ -511,9 +574,19 @@
 								<span>Observação</span>
 							</label>
 						</div>
+						<input type="hidden" name="pg_datapagamento" id="marcar-pago" value="false">
 					</form>
 				</div>
 				<div class="modal-footer hover-item">
+					<div class="item status-pag-modal">
+
+						<button class="btn btn-sm" id="pagamento-marcar-pago">
+							<i class="far fa-lg fa-thumbs-up text-muted"></i>
+							<span class="txt">Marcar como pago</span>
+							<span class="data"></span>
+						</button>					
+
+					</div>
 					<div class="item item-hover">
 						<a href="javascript:" class="text-muted" title="" data-dismiss="modal"><i class="fas fa-check" style="display: none;"></i>Salvar e criar outra</a>
 					</div>
@@ -572,7 +645,7 @@
 						<i class="fas fa-lg fa-thumbs-up text-success"></i>Pagamento efetuado em 12/07/2019
 					</div>
 					<div class="item">
-						<a href="javascript:" class="text-muted close-det-pagamento" id="editar-pagamento" title="" data-toggle="modal" data-target="#form-pagamento"><i class="far fa-edit"></i>Editar</a>
+						<a href="javascript:" class="text-muted close-det-pagamento editar-pagamento" id="editar-pagamento" title="" data-toggle="modal" data-target="#form-pagamento"><i class="far fa-edit"></i>Editar</a>
 					</div>
 					<div class="item">
 						<a href="javascript:" class="text-muted close-det-pagamento" id="copiar-pagamento" title=""><i class="far fa-copy"></i>Copiar</a>
@@ -594,6 +667,8 @@
 	<script src="js/vendor/mousetrap.min.js"></script>
 	<script src="js/vendor/datatables.min.js"></script>
 
+	<script src="js/vendor/dataTables.buttons.min.js"></script>
+
     <script src="js/vendor/jquery.validate/jquery.validate.min.js"></script>
     <script src="js/vendor/jquery.validate/additional-methods.min.js"></script>
 
@@ -604,16 +679,40 @@
 
 	<script type="text/javascript">
 
-		$(document).ready(function() {
-			//$('#nova_categoria').modal('show');
-			setInterval(function(){ 
-				//$('.modal-backdrop').css('opacity','.5');
-			}, 1000);
-		});
+		/*// datatable
+		var tabela_pagamento = $('#list-pagamento').DataTable({
+			responsive: false,
+	        bLengthChange: false,
+	        searching: true,
+	        destroy: true,
+	        info: false,
+	        sDom: '<"row view-filter"<"col-sm-12"<"float-left"l><"float-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
+	        pageLength: 8,
+	        language: {
+	        	emptyTable: "Sem dados disponíveis na tabela",
+	          	sSearch: "Pesquisar:&nbsp;&nbsp;&nbsp;",
+	          	paginate: {
+	            	previous: "<i class='simple-icon-arrow-left'></i>",
+	            	next: "<i class='simple-icon-arrow-right'></i>"
+	          	}
+	        },
+	        drawCallback: function () {
+	          $($(".dataTables_wrapper .pagination li:first-of-type"))
+	            .find("a")
+	            .addClass("prev");
+	          $($(".dataTables_wrapper .pagination li:last-of-type"))
+	            .find("a")
+	            .addClass("next");
+
+	          $(".dataTables_wrapper .pagination").addClass("pagination-sm");
+	        }
+		});*/
+
+
 
 		/* #form-categoria-novo */
 		$('#submit-form-categoria-novo').click(function(){
-			$('#form-categoria-novo').submit(); 		
+			$('#form-categoria-novo').submit(); 
 		});
 		$('#form-categoria-novo').validate({
     		submitHandler: function(form) {
@@ -648,48 +747,6 @@
     		}
     	});
 
-
-		/* #form-pagamento-novo */
-		$('#submit-form-pagamento-novo').click(function(){
-			$('#form-pagamento-novo').submit(); 		
-		});
-
-		$('#form-pagamento-novo').validate({
-    		submitHandler: function(form) {
-
-				pg_descricao = $('#pg_descricao').val();
-				pg_valor = $('#pg_valor').val();
-
-				ct_id = $('#ct_id').val();
-				cd_id = $('#cd_id').val();
-
-				pg_data = $('#pg_data').val();
-				if(pg_data != ''){
-					parts = pg_data.split('/');
-					pg_data = parts[2]+'-'+parts[1]+'-'+parts[0];
-				}
-
-				pg_categoria = $('#pg_categoria').val();
-				pg_observacao = $('#pg_observacao').val();
-			
-					$.getJSON("db/pagamento_novo.php", { 
-						pg_descricao:pg_descricao,
-						pg_valor:pg_valor,
-						pg_data:pg_data,
-						pg_categoria:pg_categoria,
-						pg_observacao:pg_observacao,
-						cd_id:cd_id,
-						ct_id:ct_id
-					}, function(result){
-						//alert(result);
-						url_cadastro = '<?php echo $home_url; ?>?&novopagamento=success';
-						//alert(url_cadastro);
-						$(location).attr('href',url_cadastro);
-						return false;
-					});
-    		}
-    	});
-
 		$('#pg_descricao').rules( "add", {
 			required: true,
 			messages: {
@@ -711,7 +768,7 @@
 			}
 		});
 
-		$('#pg_categoria').rules( "add", {
+		$('#ct_id').rules( "add", {
 			required: true,
 			messages: {
 				required: "Este campo é obrigatório!"
@@ -728,15 +785,19 @@
 
 		/* modal pagamento novo */
 		$('.close-det-pagamento').click(function(){
-			$('#detalhe-pagamento').modal('hide');
+			/*alert('close-det-pagamento');
+			$('#detalhe-pagamento').modal('hide');*/
 		});
 
 		$('#copiar-pagamento').click(function(){
+			alert('copiar-pagamento');
 			//$('#detalhe-pagamento').modal('hide');
 		});
 
 		$('.editar-pagamento').click(function(){
-			$('.modal').modal('hide');
+			alert();
+			//$('.modal').modal('hide');
+			$('.detalhe-pagamento').modal('hide');
 		});
 
 		/* MASCARA */
@@ -762,13 +823,108 @@
         	<?php }
         } ?>
 
-        $('#list-cores li').click(function(){
-        	$('#list-cores li').removeClass('active');
+        <?php if(isset($_GET['editarpagamento'])){ 
+        	if($_GET['editarpagamento'] == 'success'){ ?>
+
+	            $.notify({
+	                // options
+	                title: 'Lançamento salvo com sucesso!',
+	                message: '' 
+
+	            },{
+	                // settings
+	                type: 'success',
+	                placement: {
+	                    from: "bottom",
+	                    align: "right"
+	                },
+	            });
+
+        	<?php }
+        } ?>
+
+
+	    	// #form-categoria-novo
+			$('#btn_nova_categoria').click(function(){
+				$('#form-categoria-novo').trigger("reset");
+				$('#form-categoria-novo #ct_color').css('background-color','');	
+			});
+
+			$('#submit-form-categoria-novo').click(function(){
+				$('#form-categoria-novo').submit(); 		
+			});
+			$('#form-categoria-novo').validate({
+	    		submitHandler: function(form) {
+
+					ct_nome = $('#ct_nome').val();
+					ct_color = $('#ct_color').val();
+					result = new Array();
+			
+					$.getJSON("db/categoria_novo.php", { 
+						ct_nome:ct_nome,
+						ct_color:ct_color
+					}, function(result){
+						
+						$('#nova_categoria').modal('hide');
+						$('#form-categoria-novo').trigger("reset");
+						$('#form-categoria-novo #ct_color').css('background-color','');
+
+			            $.notify({
+			                // options
+			                title: 'Categoria cadastrada com sucesso!',
+			                message: ''
+
+			            },{
+			                // settings
+			                type: 'success',
+			                placement: {
+			                    from: "bottom",
+			                    align: "right"
+			                },
+			            });
+
+						/*tabela_categoria
+						.row.add( [
+							'<td width="30"><i class="fas fa-square" style="font-size: 1.5rem; color: '+result.color+'"></i></td>',
+							'<td class="sorting_1"><a href="javascript:" class="editar_categoria" data-id="'+result.id+'" data-nome="'+result.titulo+'" data-cor="'+result.color+'">'+result.titulo+'</a></td>'
+						] )
+						.draw()
+						.node()
+						.id = 'categoria-'+result.id;*/
+
+						/*tabela_categoria
+						.order( [ 1, 'asc' ] )
+						.draw();*/
+
+						/*$( rowNode )
+							.css( 'color', 'red' )
+							.animate( { color: 'black' } );*/
+
+						return false;
+					});
+	    		}
+	    	});
+
+        $('.list-cores li').click(function(){
+        	$('.list-cores li').removeClass('active');
         	$(this).addClass('active');
         	color = $(this).attr('rel');
-        	$('#ct_color').val(color).css('background-color',color);
+        	$(this).parents('label').find('input').val(color).css('background-color',color);
         });
+
+
+        // modal editar categoria
+		$(document).on('click','.editar_categoria',function(){
+        	$('.btn-excluir-cat').attr('data-id',$(this).attr('data-id'));
+        	$('#form-categoria-editar input[name="editar_ct_id"]').val($(this).attr('data-id'));
+        	$('#form-categoria-editar input[name="editar_ct_nome"]').val($(this).attr('data-nome'));
+        	$('#form-categoria-editar input[name="editar_ct_color"]').val($(this).attr('data-cor')).css('background-color',$(this).attr('data-cor'));
+        	$('#editar_categoria').modal('show');
+		});
 	</script>
+
+	<?php include 'js_pagamentos.php'; ?>
+
 </body>
 
 </html>
