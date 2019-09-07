@@ -1,0 +1,388 @@
+
+/* */
+@import 'fontawesome/fontawesome';
+@import 'fontawesome/solid.scss';
+@import 'fontawesome/brands.scss';
+@import 'fontawesome/regular.scss';
+
+/* cores */
+@import 'cores.scss';
+
+/* mixin */
+@mixin box-sizing() {
+	$value: border-box;
+	-webkit-box-sizing: $value;
+	-moz-box-sizing: $value;
+	box-sizing: $value;
+}
+@mixin clear() {
+	clear: both;
+
+    &:before, &:after {
+        display: table;
+        content: ''; 
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+@mixin box-sizing() {
+	$value: border-box;
+	-webkit-box-sizing: $value;
+	-moz-box-sizing: $value;
+	box-sizing: $value;
+}
+@mixin animacao() {
+	$value1: 0.2;
+	$value2: 0;
+	$valueIni: $value1+s;
+	$valueEnd: $value2+s;
+	-moz-transition: all $valueIni ease $valueEnd;
+	-webkit-transition: all $valueIni ease $valueEnd;
+	-o-transition: all $valueIni ease $valueEnd;
+}
+
+/* data table */
+.header-table {
+	position: relative;
+	z-index: 4;
+
+	.filtro-data {
+		position: absolute;
+		left: 0;
+		top: 2px;
+		span {
+			display: inline-block;
+			vertical-align: middle;
+			font-size: 1rem;
+			padding: 0 20px;
+		}
+
+		i {
+			font-size: 1.5rem;
+			display: inline-block;
+			vertical-align: middle;
+			cursor: pointer;
+		}
+	}
+}
+
+table.dataTable {
+	margin-top: 20px !important;
+
+	thead {
+		&.no-thead {
+			th {
+				padding-top: 20px;
+				display: none;
+
+				&.sorting, &.sorting_asc, &.sorting_desc {
+					&:before, &:after {
+						display: none;
+					}
+				}
+			}
+		}
+		&.no-sorting {
+			th {
+				&.sorting, &.sorting_asc, &.sorting_desc {
+					&:before, &:after {
+						display: none;
+					}
+				}
+			}			
+		}
+	}
+}
+
+#relatorio_wrapper {
+	.dt-buttons {
+		display: none;
+	}
+}
+
+/* modal */
+.modal-backdrop {
+	background-color: rgba(#000000, .4);
+}
+
+.modal {
+	.modal-header {
+		padding-bottom: 0;
+		border: none;
+		flex: 0 0 0px;
+		//flex: unset;
+
+		.modal-title {
+			//flex: 0 0 0px;
+			flex: auto;
+			i {
+				padding-right: 5px;
+			}
+		}
+
+		.close {
+			position: absolute;
+			right: 30px;
+		}
+	}
+
+	.modal-body {
+		form {
+			input {
+				padding-top: 15px;
+				padding-bottom: 9px;
+			}
+		}
+
+		#marcar-pago {
+			&.active {
+
+			}
+		}
+	}
+	.modal-footer {
+		justify-content: center;
+		flex-grow: 0;
+		flex-shrink: 0;
+		border-top: none;
+		padding-top: 0;
+
+		.item {
+			i {
+				position: relative;
+				top: -1px;
+				padding-right: 5px;
+
+				&.fa-times {
+					top: 0;
+				}
+			}
+
+			a {
+				padding: 0 2px;
+				margin-left: 5px;
+				@include animacao;
+
+				&:hover {
+					color: $azul!important;;
+				}
+
+				&.pagamento_excluir {
+					&:hover {
+						color: $vermelho!important;
+					}
+				}
+			}
+
+			&:first-child {
+				margin-right: 30px;
+			}
+		}
+
+		&.hover-item {
+			.item-hover {
+				overflow: hidden;
+				padding: 10px 0;
+				a {
+					display: inline-block;
+					@include animacao;
+					opacity: 0;
+					transform: translate(0, 60px);
+				}
+			}
+
+			&:hover {
+				a {
+					opacity: 1;
+					transform: translate(0, 0);
+				}
+			}
+		}
+	}
+}
+
+.modal-open .modal-no-scrolling {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+/* form */
+.input-legenda {
+	input {
+		padding-left: 35px;
+	}
+
+	small  {
+		font-size: .7rem;
+		position: absolute;
+		top: 15px;
+		left: 14px;
+		color: rgba(58, 58, 58, 0.7);
+		font-weight: 700;
+
+		i {
+			font-size: .8rem;
+		}
+	}
+}
+
+.select2-container--bootstrap .select2-selection--single {
+	height: calc(2.5rem - 1px);
+}
+
+.select2-search {
+	//display: none;	
+}
+
+
+/* PAGINAS */
+/* cadastro */
+.label-hidden {
+	display: none;
+}
+
+#form-cadastro-novo, #form-pagamento-novo {
+	label.error {
+		position: relative;
+		left: 0;
+		top: 0;
+	}
+
+	input.error {
+		border-color: red;
+	}
+}
+
+@media (max-width: 991px) {
+	.cad-info-contato {
+		margin-top: 1.5rem !important;
+	}
+}
+
+
+/* pagamentos */
+.btn-status a.btn {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.ico-title {
+	display: inline-block;
+}
+.footer-form {
+	width: 100%;
+}
+.btn-excluir-cat {
+	float: right;
+	margin-top: 10px;
+}
+#nova_categoria, #editar_categoria {
+	.modal-dialog {
+		max-width: 300px;
+	}
+}
+.data-pagamento {
+	font-size: 98%;
+}
+label.has-float-label > span.tit-color {
+	position: relative;
+	left: 0;
+}
+.ct_color {
+	text-indent: -10000px;
+	overflow: hidden;
+}
+button.novo-pagamento {
+	background-color: #0f3d64;
+	border-color: #0f3d64;
+
+	&:after {
+		font-size: 1.125rem;
+		top: 3px;
+		position: relative;
+		left: -3px;
+	}
+}
+.list-cores {
+	width: 100%;
+	padding: 0;
+	margin: 15px 0 0;
+
+	li {
+		width: 10%;
+		height: 24.4px;
+		float: left;
+		list-style: none;
+		margin: 0;
+		cursor: pointer;
+
+		&:hover {
+			border: 1px solid #ffffff;
+		}
+	}
+}
+
+.detalhe-pagamento {
+	.contaner-info {
+		max-width: 500px; 
+		width: 100%;
+		margin: 0 auto;
+		@include box-sizing;
+		@include clear;
+	}
+
+	.modal-body {
+		padding-top: 10px;
+		//padding-left: 63px;
+
+		.valor-pagamento {
+			strong	{
+				font-size: 1.25rem;
+				line-height: 1.25rem;
+			}
+			span {
+				margin-left: 20px;
+				position: relative;
+				top: -3px;
+			}
+			.nome-cadastro {
+				font-weight: 600;
+			}
+		}
+
+		.det-pagamento {
+			width: 100%;
+			display: block;
+			@include clear;
+			margin: 5px 0 0;
+
+			.item {
+				margin-top: 10px;
+				span {
+					display: block;
+				}
+
+				&:first:child {
+					margin-top: 0;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 575px) {
+	.header-table {
+		padding-bottom: 20px;
+		text-align: center;
+
+		.filtro-data {
+			position: relative;
+		}
+	}
+	#detalhe-pagamento .modal-body .valor-pagamento .nome-cadastro {
+		display: block;
+		margin: 10px 0 0 0;
+	}
+}
