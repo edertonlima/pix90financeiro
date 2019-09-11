@@ -372,6 +372,42 @@ button.novo-pagamento {
 	}
 }
 
+
+.login {
+	.image-side {
+		background: transparent;
+	}
+
+	.form-side {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+}
+
+/* vertical center */
+.block-vertical-center {
+	display: table;
+	width: 100%;
+	height: 100%;
+
+	.vertical-center {
+		display: table-cell;
+		vertical-align: middle;
+	}
+}
+
+
+/* mobile */
+
+@media (max-width: 991px) {
+	.login {
+		.form-side {
+			padding-top: 60px;
+			padding-bottom: 60px;
+		}
+	}
+}
+
 @media (max-width: 575px) {
 	.header-table {
 		padding-bottom: 20px;

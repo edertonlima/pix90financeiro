@@ -46,17 +46,18 @@
         <div class="navbar-right">
             <div class="header-icons d-inline-block align-middle">
                 
-                <?php /*
-                <div class="d-none d-md-inline-block align-text-bottom mr-3">
+                
+                <?php /* // BOTÃO TOGGLE TEMA, dark / light
+                 <div class="d-none d-md-inline-block align-text-bottom mr-3">
                     <div class="custom-switch custom-switch-primary-inverse custom-switch-small pl-1"
                         data-toggle="tooltip" data-placement="left" title="Dark Mode">
                         <input class="custom-switch-input" id="switchDark" type="checkbox" checked>
                         <label class="custom-switch-btn" for="switchDark"></label>
                     </div>
                 </div>
-                */ ?>
+                
 
-                <?php /*
+                <?php /* // MENU OPÇÕES DE CONFIGURAÇÃO 
                 <div class="position-relative d-none d-sm-inline-block">
                     <button class="header-icon btn btn-empty" type="button" id="iconMenuButton" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
@@ -98,7 +99,7 @@
                 */ ?>
 
                 <div class="position-relative d-inline-block">
-                    <button class="header-icon btn btn-empty" type="button" id="notificationButton" style="display: none!important;"
+                    <button class="header-icon btn btn-empty" type="button" id="notificationButton" style=""
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="simple-icon-bell"></i>
                         <span class="count">3</span>
@@ -168,18 +169,24 @@
             <div class="user d-inline-block">
                 <button class="btn btn-empty p-0" type="button" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                    <span class="name">Altivo Martins Jr.</span>
+                    <span class="name">
+                        <?php echo $_SESSION["nome_usuario"]; ?>
+                        <i class="fas fa-caret-down"></i>
+                        
+                    </span>
                     <span>
                         <img alt="Profile Picture" src="img/altivo-martins-jr.jpg" />
                     </span>
                 </button>
 
-                <div class="dropdown-menu dropdown-menu-right mt-3" style="display: none!important;">
+                <div class="dropdown-menu dropdown-menu-right mt-3" style="">
+                    <?php /*
                     <a class="dropdown-item" href="#">Account</a>
                     <a class="dropdown-item" href="#">Features</a>
                     <a class="dropdown-item" href="#">History</a>
                     <a class="dropdown-item" href="#">Support</a>
-                    <a class="dropdown-item" href="#">Sign out</a>
+                    */ ?>
+                    <a class="dropdown-item" href="<?php echo $home_url.'/login.php'; ?>">Sair</a>
                 </div>
             </div>
         </div>

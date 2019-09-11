@@ -1,6 +1,6 @@
 <?php 
 	include 'include/head.php';
-	include 'db/function_db.php';
+	include 'sql/function_db.php';
 	$page = 'pagamento';
 	$subpage = 'pagamento-list';
 	//$pagamentos = get_pagamento();
